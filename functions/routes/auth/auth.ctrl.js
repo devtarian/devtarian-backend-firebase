@@ -38,11 +38,16 @@ exports.signIn = async (req, res) => {
 };
 exports.signUp = async (req, res) => {
     try {
-        const noImg = "no-img.jpg";
+        const thumbNail =
+            req.body.imgUrls.length !== 0
+                ? req.body.imgUrls[0]
+                : `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/no-img.jpg?alt=media`;
+
         const newUser = {
             username: req.body.username,
             email: req.body.email,
             pw: req.body.pw,
+            thumbNail: thumbNail,
         };
 
         const { isValid, errors } = validateData(newUser);
@@ -56,13 +61,14 @@ exports.signUp = async (req, res) => {
 
         if (token) {
             const userCredentials = {
+                username: newUser.username,
                 email: newUser.email,
-                createdAt: new Date().toISOString,
-                imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt="media`,
+                createdAt: new Date().toISOString(),
+                thumbNail: newUser.thumbNail,
                 userId,
             };
             db.doc(`/users/${userId}`).set(userCredentials);
-            return res.status(200).json({ token });
+            return res.status(200).json({ token, userCredentials });
         } else {
             throw new Error("Interval Server Error");
         }

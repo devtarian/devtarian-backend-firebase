@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { signIn, signUp } = require("./auth.ctrl");
+const { filesUpload } = require("../../middleware/filesUpload");
 
 router.post("/signin", signIn);
-router.post("/signup", signUp);
+router.post("/signup", filesUpload, signUp);
 
 module.exports = router;
 
