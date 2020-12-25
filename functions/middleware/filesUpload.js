@@ -5,7 +5,7 @@ const Busboy = require("busboy");
 const { admin } = require("../fbAdmin");
 const config = require("../config");
 
-exports.filesUpload = function (req, res, next) {
+const filesUpload = function (req, res, next) {
     let fields = {};
     let imgUrls = [];
 
@@ -68,4 +68,5 @@ exports.filesUpload = function (req, res, next) {
     busboy.end(req.rawBody);
 };
 
+module.exports = filesUpload;
 // https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/no-img.jpg?alt=media&token=29d1d1fa-ec09-4b22-ba35-c36b06f8a042

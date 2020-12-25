@@ -1,4 +1,4 @@
-const { firebase, Admin, db } = require("../../fbAdmin");
+const { firebase, db } = require("../../fbAdmin");
 const config = require("../../config");
 
 const { validateData } = require("../../utils/validate");
@@ -38,17 +38,14 @@ exports.signIn = async (req, res) => {
 };
 exports.signUp = async (req, res) => {
     try {
+        let { imgUrls, ...newUser } = req.body;
+
         const thumbNail =
-            req.body.imgUrls.length !== 0
-                ? req.body.imgUrls[0]
+            imgUrls.length !== 0
+                ? imgUrls[0]
                 : `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/no-img.jpg?alt=media`;
 
-        const newUser = {
-            username: req.body.username,
-            email: req.body.email,
-            pw: req.body.pw,
-            thumbNail: thumbNail,
-        };
+        newUser.thumbNail = thumbNail;
 
         const { isValid, errors } = validateData(newUser);
         if (!isValid) return res.status(400).json({ errors });
@@ -68,7 +65,7 @@ exports.signUp = async (req, res) => {
                 userId,
             };
             db.doc(`/users/${userId}`).set(userCredentials);
-            return res.status(200).json({ token, userCredentials });
+            return res.status(200).json({ token });
         } else {
             throw new Error("Interval Server Error");
         }

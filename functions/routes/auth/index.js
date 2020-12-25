@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { signIn, signUp } = require("./auth.ctrl");
-const { filesUpload } = require("../../middleware/filesUpload");
+const { filesUpload } = require("../../middleware");
 
 router.post("/signin", signIn);
 router.post("/signup", filesUpload, signUp);
