@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { signIn, signUp } = require("./auth.ctrl");
-const { filesUpload } = require("../../middleware");
+const { filesUpload, protect } = require("../../middleware");
+const { signIn, signUp, getUser } = require("./auth.ctrl");
 
 router.post("/signin", signIn);
 router.post("/signup", filesUpload, signUp);
+router.get("/me", protect, getUser);
 
 module.exports = router;
 

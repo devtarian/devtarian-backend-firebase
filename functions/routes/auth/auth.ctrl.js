@@ -31,7 +31,7 @@ exports.signIn = async (req, res) => {
                 .json({ email: "비밀번호가 일치하지 않습니다." });
         } else {
             return res.status(500).json({
-                error: "500 서버에러",
+                error: err,
             });
         }
     }
@@ -81,5 +81,15 @@ exports.signUp = async (req, res) => {
     }
 };
 
+exports.getUser = async (req, res) => {
+    try {
+        console.log(req.user);
+        return res.status(200).json({ ...req.user });
+    } catch (err) {
+        return res.status(500).json({
+            error: err,
+        });
+    }
+};
 // 업로드
 // https://mikesukmanowsky.com/firebase-file-and-image-uploads/
