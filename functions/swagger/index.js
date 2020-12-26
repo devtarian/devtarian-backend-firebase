@@ -12,7 +12,29 @@ module.exports = {
         //host: "asia-northeast3-project-devtarian.cloudfunctions.net",
         basePath: "/api",
         definitions: {
-            User: {
+            signin: {
+                type: "object",
+                properties: {
+                    email: {
+                        type: "string",
+                        format: "string",
+                    },
+                    pw: {
+                        type: "string",
+                        format: "string",
+                    },
+                },
+            },
+            signinSuccess: {
+                type: "object",
+                properties: {
+                    token: {
+                        type: "string",
+                        format: "string",
+                    },
+                },
+            },
+            SignupInsertRequest: {
                 type: "object",
                 properties: {
                     username: {
@@ -27,26 +49,9 @@ module.exports = {
                         type: "string",
                         format: "string",
                     },
-                    avatar: {
-                        type: "string",
-                        format: "string",
-                    },
                 },
                 xml: {
                     name: "User",
-                },
-            },
-            signin: {
-                type: "object",
-                properties: {
-                    email: {
-                        type: "string",
-                        format: "string",
-                    },
-                    pw: {
-                        type: "string",
-                        format: "string",
-                    },
                 },
             },
         },
