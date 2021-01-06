@@ -22,14 +22,14 @@ module.exports = router;
  *         description: "user object that needs to be added"
  *         required: true
  *         schema:
- *           $ref: "#/definitions/signin"
+ *           $ref: "#/definitions/request_signin_post"
  *     consumes: "application/json"
  *     produces: "application/json"
  *     responses:
  *       200:
  *         description: Success(성공)
  *         schema:
- *           $ref: "#/definitions/signinSuccess"
+ *           $ref: "#/definitions/success_signin_post"
  */
 
 /**
@@ -42,10 +42,10 @@ module.exports = router;
  *     parameters:
  *       - name: "body"
  *         in: "formData"
- *         description: "Models -> SignupInsertRequest 참고"
+ *         description: "Models -> request_signup_post 참고"
  *         required: true
  *         schema:
- *           $ref: "#/definitions/SignupInsertRequest"
+ *           $ref: "#/definitions/request_signup_post"
  *       - name: "file"
  *         in: "formData"
  *         description: "이미지 업로드"
@@ -57,7 +57,7 @@ module.exports = router;
  *       200:
  *         description: Success(성공)
  *         schema:
- *           $ref: "#/definitions/signinSuccess"
+ *           $ref: "#/definitions/success_signin_post"
  */
 
 /**
@@ -76,8 +76,6 @@ module.exports = router;
  *     responses:
  *       200:
  *         description: Success(성공)
- *       400:
- *         description: Bad request (잘못된 요청)
- *       500:
- *         description: Interval Server Error
+ *         schema:
+ *           $ref: "#/definitions/success_auth_me_get"
  */
