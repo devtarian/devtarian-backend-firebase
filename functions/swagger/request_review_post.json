@@ -1,0 +1,27 @@
+{
+    "type":"object",
+    "properties": {
+        "category": {
+            "example": "가게",
+            "type": "string"
+          },
+          "vegLevel": {
+            "example": "오보",
+            "type": "string"
+          },
+          "starRating": {
+            "example": 4,
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "example": "제목",
+            "type": "string"
+          },
+          "contents": {
+            "example": "내용을 입력해주세요.",
+            "type": "string"
+          }
+        }
+        
+}

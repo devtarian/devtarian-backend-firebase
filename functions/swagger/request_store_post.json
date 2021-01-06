@@ -1,0 +1,171 @@
+ {
+    "type":"object",
+    "properties": {
+        "Coordinates": {
+          "title": "Coordinates",
+          "type": "object",
+          "properties": {
+            "_latitude": {
+              "example": 33.4501001553019,
+              "type": "number",
+              "format": "double"
+            },
+            "_longitude": {
+              "example": 126.569061622125,
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "required": [
+            "_latitude",
+            "_longitude"
+          ]
+        },
+        "Store": {
+          "title": "Store",
+          "type": "object",
+          "properties": {
+            "step": {
+              "example": 2,
+              "type": "integer",
+              "format": "int32"
+            },
+            "vegType": {
+              "example": [
+                "vegan"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            
+            "starRating": {
+              "example": 5,
+              "type": "integer",
+              "format": "int32"
+            },
+            "storeName": {
+              "example": "가게이름",
+              "type": "string"
+            },
+            "region": {
+              "example": "제주",
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "contactNum": {
+              "example": "01011112222",
+              "type": "string"
+            },
+            "operatingHours": {
+              "example": [
+                "월요일 0시 00분 - 0시 00분",
+                "화요일 0시 00분 - 0시 00분",
+                "수요일 0시 00분 - 0시 00분",
+                "목요일 0시 00분 - 0시 00분",
+                "금요일 0시 00분 - 0시 00분",
+                "토요일 0시 00분 - 0시 00분",
+                "일요일 0시 00분 - 0시 00분"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "menuList": {
+              "example": [
+                {
+                  "menu": "메뉴명1",
+                  "vegtype": "비건",
+                  "price": "10000"
+                },
+                {
+                  "menu": "메뉴명2",
+                  "vegtype": "비건",
+                  "price": "20000"
+                },
+                {
+                  "menu": "메뉴명3",
+                  "vegtype": "비건",
+                  "price": "30000"
+                }
+              ],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MenuList"
+              }
+            },
+            "addr": {
+              "example": "제주특별자치도 제주시 영평동 2181",
+              "type": "string"
+            },
+            "addrDetail": {
+              "example": "상세주소",
+              "type": "string"
+            },
+            "operatingHoursMemo": {
+              "example": "운영시간 기타사항",
+              "type": "string"
+            },
+            "contents": {
+              "example": "가게소개",
+              "type": "string"
+            },
+            "imgUrls": {
+              "example": [
+                "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/724661.png?alt=media",
+                "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/994722.jpg?alt=media"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "step",
+            "vegType",
+            "imgFiles",
+            "imgFileURLs",
+            "starRating",
+            "storeName",
+            "region",
+            "address",
+            "contactNum",
+            "operatingHours",
+            "menuList",
+            "addr",
+            "addrDetail",
+            "operatingHoursMemo",
+            "contents",
+            "imgUrls"
+          ]
+        },
+        "MenuList": {
+          "title": "MenuList",
+          "type": "object",
+          "properties": {
+            "menu": {
+              "example": "메뉴명1",
+              "type": "string"
+            },
+            "vegtype": {
+              "example": "비건",
+              "type": "string"
+            },
+            "price": {
+              "example": "10000",
+              "type": "string"
+            }
+          },
+          "required": [
+            "menu",
+            "vegtype",
+            "price"
+          ]
+        }
+      }
+}

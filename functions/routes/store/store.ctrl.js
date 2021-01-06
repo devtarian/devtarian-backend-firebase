@@ -18,7 +18,6 @@ exports.createStore = async (req, res) => {
         const collection = geoFirestore.collection("store");
 
         await collection.add(newStore);
-        console.log("?");
         return res.status(200).json(newStore);
     } catch (err) {
         console.log(err);
