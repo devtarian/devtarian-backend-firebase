@@ -34,8 +34,7 @@ const filesUpload = function (req, res, next) {
         file.pipe(fs.createWriteStream(filepath));
         fs.readFile(filepath, (err, buffer) => {
             const size = Buffer.byteLength(buffer);
-            console.log("zz", size);
-            console.log(err);
+            console.log({ size, err });
         });
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
         imgUrls.push(imageUrl);
