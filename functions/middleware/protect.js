@@ -24,7 +24,6 @@ module.exports = protect = (req, res, next) => {
                 .get();
         })
         .then((data) => {
-            console.log("user", data.docs[0].data());
             req.user = data.docs[0].data();
             return next();
         })

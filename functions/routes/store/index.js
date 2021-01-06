@@ -1,11 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { createStore, getStore, createReview } = require("./store.ctrl");
+const {
+    createStore,
+    getStore,
+    createReview,
+    getComment,
+    createComment,
+} = require("./store.ctrl");
 const { protect, filesUpload } = require("../../middleware");
 
-router.post("/", filesUpload, createStore);
+router.post("/", protect, filesUpload, createStore);
 router.get("/:storeId", getStore);
-router.post("/:storeId/review", filesUpload, createReview);
+router.post("/:storeId/review", protect, filesUpload, createReview);
+router.get("/:storeId/review/:reviewId/comment", getComment);
+router.post("/:storeId/review/:reviewId/comment", protect, createComment);
 
 module.exports = router;
 
