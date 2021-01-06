@@ -107,3 +107,53 @@ module.exports = router;
  *         schema:
  *           $ref: "#/definitions/request_review_post"
  */
+
+/**
+ * @swagger
+ * /store/{storeId}/review/{reviewId}/comment:
+ *   get:
+ *     tags: [Store]
+ *     summary: 댓글 리스트 조회
+ *     description: ""
+ *     parameters:
+ *       - name: "reviewId"
+ *         in: "path"
+ *         description: "example: 2ComGXvSo3XaNA1YNuQI"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ *         schema:
+ *           $ref: "#/definitions/success_comment_get"
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}/review/{reviewId}/comment:
+ *   get:
+ *     tags: [Store]
+ *     summary: 댓글 리스트 조회
+ *     description: ""
+ *     parameters:
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         required: true
+ *         type: "string"
+ *     parameters:
+ *       - name: "reviewId"
+ *         in: "path"
+ *         description: "example: FCbZ9kFrluXS9NA1Rxvh"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ *         schema:
+ *           $ref: "#/definitions/success_comment_get"
+ */
