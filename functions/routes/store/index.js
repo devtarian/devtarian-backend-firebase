@@ -133,27 +133,31 @@ module.exports = router;
 /**
  * @swagger
  * /store/{storeId}/review/{reviewId}/comment:
- *   get:
+ *   post:
  *     tags: [Store]
- *     summary: 댓글 리스트 조회
+ *     summary: 댓글 등록
  *     description: ""
  *     parameters:
- *       - name: "storeId"
- *         in: "path"
- *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
  *         required: true
- *         type: "string"
- *     parameters:
  *       - name: "reviewId"
  *         in: "path"
  *         description: "example: FCbZ9kFrluXS9NA1Rxvh"
  *         required: true
  *         type: "string"
+ *       - name: "request"
+ *         in: "body"
+ *         description: "user object that needs to be added"
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/request_comment_post"
  *     consumes: "application/json"
  *     produces: "application/json"
  *     responses:
  *       200:
  *         description: Success(성공)
  *         schema:
- *           $ref: "#/definitions/success_comment_get"
+ *           $ref: "#/definitions/success_comment_post"
  */

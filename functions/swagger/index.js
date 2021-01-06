@@ -1,5 +1,6 @@
 const request_review_post = require("./request_review_post.json");
 const request_store_post = require("./request_store_post.json");
+const success_comment_post = require("./success_comment_post.json");
 
 module.exports = {
     // Import swaggerDefinitions
@@ -59,6 +60,15 @@ module.exports = {
             },
             request_store_post,
             request_review_post,
+            request_comment_post: {
+                type: "object",
+                properties: {
+                    contents: {
+                        type: "string",
+                        format: "string",
+                    },
+                },
+            },
             success_store_post: {},
             success_store_get: {
                 type: "object",
@@ -343,6 +353,7 @@ module.exports = {
                     },
                 },
             },
+            success_comment_post,
         },
     },
     // Path to the API docs

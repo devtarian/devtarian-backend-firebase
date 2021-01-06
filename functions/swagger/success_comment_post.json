@@ -1,0 +1,22 @@
+{
+    "type":"object",
+    "properties": {
+        "contents": {
+            "example": "fewfew",
+            "type": "string"
+          },
+          "writer": {
+            "example": "유저",
+            "type": "string"
+          },
+          "reviewId": {
+            "example": "FCbZ9kFrluXS9NA1Rxvh",
+            "type": "string"
+          },
+          "createdAt": {
+            "example": "2021-01-06T17:34:48.110Z",
+            "type": "string"
+          }
+        }
+        
+}
