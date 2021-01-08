@@ -5,7 +5,7 @@ exports.getMain = async (req, res) => {
     try {
         const { lat, lng } = req.query;
         const geofirestore = new GeoFirestore(db);
-        const geocollection = geofirestore.collection("posts");
+        const geocollection = geofirestore.collection("store");
         const snapshot = await geocollection
             .near({
                 center: new firebase.firestore.GeoPoint(
@@ -16,9 +16,18 @@ exports.getMain = async (req, res) => {
             })
             .get();
 
-        const posts = snapshot.docs.map((doc) => doc.data());
+        const store = snapshot.docs.map((doc) => doc.data());
+        const wiki = [];
 
-        return res.status(200).json({ posts });
+        const docReview = await db
+            .collection("review")
+            .orderBy("createdAt", "desc")
+            .limit(5)
+            .get();
+
+        const review = await docReview.docs.map((doc) => doc.data());
+
+        return res.status(200).json({ store, wiki, review });
     } catch (err) {
         console.log(err);
         return res.status(500).json({
