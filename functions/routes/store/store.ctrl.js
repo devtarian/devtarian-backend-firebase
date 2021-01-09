@@ -60,6 +60,56 @@ exports.getStore = async (req, res) => {
     }
 };
 
+exports.favoriteStore = async (req, res) => {
+    try {
+        const storeId = req.params.storeId;
+        const userId = req.user.userId;
+
+        const docFavorite = await db
+            .collection("favorite")
+            .where("storeId", "==", storeId)
+            .where("userId", "==", userId)
+            .limit(1)
+            .get();
+
+        if (docFavorite.docs.length > 0) {
+            return res.status(400).json({ error: "Store already favorited" });
+        }
+
+        await db.collection("favorite").add({ storeId, userId });
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
+
+exports.unfavoriteStore = async (req, res) => {
+    try {
+        const storeId = req.params.storeId;
+        const userId = req.user.userId;
+
+        const docFavorite = await db
+            .collection("favorite")
+            .where("storeId", "==", storeId)
+            .where("userId", "==", userId)
+            .limit(1)
+            .get();
+
+        if (docFavorite.docs.length === 0) {
+            return res.status(400).json({ error: "Store already unfavorited" });
+        }
+
+        const favoriteId = docFavorite.docs[0].id;
+        await db.doc(`/favorite/${favoriteId}`).delete();
+
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
+
 exports.createReview = async (req, res) => {
     try {
         const storeId = req.params.storeId;
@@ -82,7 +132,7 @@ exports.createReview = async (req, res) => {
         newReview.likesOfMe = false;
 
         await db.collection("review").add(newReview);
-        console.log("??");
+
         return res.status(200).json(newReview);
     } catch (err) {
         return res.status(500).json({ error: err });

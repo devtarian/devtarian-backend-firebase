@@ -3,6 +3,8 @@ const router = express.Router();
 const {
     createStore,
     getStore,
+    favoriteStore,
+    unfavoriteStore,
     createReview,
     getComment,
     createComment,
@@ -11,6 +13,8 @@ const { protect, filesUpload } = require("../../middleware");
 
 router.post("/", protect, filesUpload, createStore);
 router.get("/:storeId", getStore);
+router.post("/:storeId/favorite", protect, favoriteStore);
+router.delete("/:storeId/unfavorite", protect, unfavoriteStore);
 router.post("/:storeId/review", protect, filesUpload, createReview);
 router.get("/:storeId/review/:reviewId/comment", getComment);
 router.post("/:storeId/review/:reviewId/comment", protect, createComment);
