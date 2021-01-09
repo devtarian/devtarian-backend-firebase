@@ -1,9 +1,10 @@
 const request_review_post = require("./request_review_post.json");
 const request_store_post = require("./request_store_post.json");
+const request_wiki_post = require("./request_wiki_post.json");
 const success_comment_post = require("./success_comment_post.json");
 const success_store_get = require("./success_store_get.json");
 const success_auth_me_get = require("./success_auth_me_get.json");
-
+const success_wiki_post = require("./success_wiki_post.json");
 module.exports = {
     swaggerDefinition: {
         info: {
@@ -12,8 +13,8 @@ module.exports = {
             description: "DevTarian API Doc \n [Website]: www.example.com",
         },
         scheme: "https:",
-        //host: "localhost:5001/project-devtarian/asia-northeast3",
-        host: "asia-northeast3-project-devtarian.cloudfunctions.net",
+        host: "localhost:5001/project-devtarian/asia-northeast3",
+        //host: "asia-northeast3-project-devtarian.cloudfunctions.net",
         basePath: "/api",
         definitions: {
             request_signin_post: {
@@ -61,6 +62,7 @@ module.exports = {
                     },
                 },
             },
+            request_wiki_post,
             success_signin_post: {
                 type: "object",
                 properties: {
@@ -74,6 +76,7 @@ module.exports = {
             success_store_post: {},
             success_store_get,
             success_comment_post,
+            success_wiki_post,
         },
     },
     // Path to the API docs
@@ -82,6 +85,7 @@ module.exports = {
         "./routes/auth/index.js",
         "./routes/store/index.js",
         "./models/User/index.js",
+        "./routes/wiki/index.js",
         "./roles/index.js",
     ],
 };

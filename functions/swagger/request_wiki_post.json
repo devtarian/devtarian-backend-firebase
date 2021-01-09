@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "properties": {
+        "category": {
+            "example": "과자/간식",
+            "type": "string"
+        },
+        "product": {
+            "example": "상품명",
+            "type": "string"
+        },
+        "ingredient": {
+            "example": "성분",
+            "type": "string"
+        }
+    }
+}
