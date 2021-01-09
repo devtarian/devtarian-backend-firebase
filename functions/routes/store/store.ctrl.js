@@ -185,3 +185,54 @@ exports.createComment = async (req, res) => {
         return res.status(500).json({ error: err });
     }
 };
+
+exports.likeReview = async (req, res) => {
+    try {
+        const reviewId = req.params.reviewId;
+        const userId = req.user.userId;
+
+        const docLike = await db
+            .collection("like")
+            .where("reviewId", "==", reviewId)
+            .where("userId", "==", userId)
+            .limit(1)
+            .get();
+
+        if (docLike.docs.length > 0) {
+            return res.status(400).json({ error: "Review already liked" });
+        }
+
+        await db.collection("like").add({ reviewId, userId });
+
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
+
+exports.unlikeReview = async (req, res) => {
+    try {
+        const reviewId = req.params.reviewId;
+        const userId = req.user.userId;
+
+        const docLike = await db
+            .collection("like")
+            .where("reviewId", "==", reviewId)
+            .where("userId", "==", userId)
+            .limit(1)
+            .get();
+
+        if (docLike.docs.length === 0) {
+            return res.status(400).json({ error: "Review already unLiked" });
+        }
+
+        const likeId = docLike.docs[0].id;
+        await db.doc(`/like/${likeId}`).delete();
+
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};

@@ -8,6 +8,8 @@ const {
     createReview,
     getComment,
     createComment,
+    likeReview,
+    unlikeReview,
 } = require("./store.ctrl");
 const { protect, filesUpload } = require("../../middleware");
 
@@ -18,6 +20,8 @@ router.delete("/:storeId/unfavorite", protect, unfavoriteStore);
 router.post("/:storeId/review", protect, filesUpload, createReview);
 router.get("/:storeId/review/:reviewId/comment", getComment);
 router.post("/:storeId/review/:reviewId/comment", protect, createComment);
+router.post("/:storeId/review/:reviewId/like", protect, likeReview);
+router.delete("/:storeId/review/:reviewId/unlike", protect, unlikeReview);
 
 module.exports = router;
 
@@ -212,4 +216,52 @@ module.exports = router;
  *         description: Success(성공)
  *         schema:
  *           $ref: "#/definitions/success_comment_post"
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}/review/{reviewId}/like:
+ *   post:
+ *     tags: [Store]
+ *     summary: 리뷰 좋아요
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "reviewId"
+ *         in: "path"
+ *         description: "example: 2ComGXvSo3XaNA1YNuQI"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}/review/{reviewId}/unlike:
+ *   delete:
+ *     tags: [Store]
+ *     summary: 리뷰 좋아요 취소
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "reviewId"
+ *         in: "path"
+ *         description: "example: 2ComGXvSo3XaNA1YNuQI"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
  */
