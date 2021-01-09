@@ -25,8 +25,31 @@ exports.createWiki = async (req, res) => {
 };
 
 exports.getWikiDetail = async (req, res) => {
+    const wikiId = req.params.wikiId;
+
     try {
-        return res.status(200).json({});
+        const docWiki = await db.doc(`/wiki/${wikiId}`).get();
+        if (!docWiki.exists) {
+            return res.status(404).json({ error: "Wiki not found" });
+        }
+
+        const docCommentList = await db
+            .collection("comment")
+            .where("wikiId", "==", wikiId)
+            .orderBy("createdAt", "asc")
+            .get();
+
+        const wiki = docWiki.data();
+        wiki.id = docWiki.id;
+        wiki.commentList = await docCommentList.docs.map((doc) => {
+            const { wikiId, ...comment } = doc.data();
+            return {
+                id: doc.id,
+                ...comment,
+            };
+        });
+
+        return res.status(200).json(wiki);
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: err });

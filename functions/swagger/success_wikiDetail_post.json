@@ -1,0 +1,42 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "example": "UqHcUaYWye5D1wb2WIY9",
+            "type": "string"
+        },
+        "category": {
+            "example": "과자/간식",
+            "type": "string"
+        },
+        "product": {
+            "example": "상품명",
+            "type": "string"
+        },
+        "ingredient": {
+            "example": "성분",
+            "type": "string"
+        },
+        "imgUrls": {
+            "example": [
+                "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/39021.jpg?alt=media",
+                "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/542099.jpeg?alt=media"
+            ],
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "comments": {
+            "example": 0,
+            "type": "integer",
+            "format": "int32"
+        },
+        "commentList": {
+            "type": "array",
+            "items": {
+            "$ref": "#/definitions/comment"
+            }
+        }
+    }
+}

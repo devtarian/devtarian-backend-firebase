@@ -54,3 +54,25 @@ module.exports = router;
  *         schema:
  *           $ref: "#/definitions/success_wiki_post"
  */
+
+/**
+ * @swagger
+ * /wiki/{wikiId}:
+ *   get:
+ *     tags: [Wiki]
+ *     summary: Wiki 상세정보 조회
+ *     description: ""
+ *     parameters:
+ *       - name: "wikiId"
+ *         in: "path"
+ *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ *         schema:
+ *           $ref: "#/definitions/success_wikiDetail_post"
+ */

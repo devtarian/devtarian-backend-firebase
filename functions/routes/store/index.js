@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
     createStore,
-    getStore,
+    getStoreDetail,
     favoriteStore,
     unfavoriteStore,
     createReview,
@@ -14,7 +14,7 @@ const {
 const { protect, filesUpload } = require("../../middleware");
 
 router.post("/", protect, filesUpload, createStore);
-router.get("/:storeId", getStore);
+router.get("/:storeId", getStoreDetail);
 router.post("/:storeId/favorite", protect, favoriteStore);
 router.delete("/:storeId/unfavorite", protect, unfavoriteStore);
 router.post("/:storeId/review", protect, filesUpload, createReview);

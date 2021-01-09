@@ -25,7 +25,7 @@ exports.createStore = async (req, res) => {
     }
 };
 
-exports.getStore = async (req, res) => {
+exports.getStoreDetail = async (req, res) => {
     try {
         const storeId = req.params.storeId;
         const docStore = await db.doc(`/store/${storeId}`).get();
@@ -42,7 +42,7 @@ exports.getStore = async (req, res) => {
             .orderBy("createdAt", "desc")
             .get();
 
-        store.storeId = docStore.id;
+        store.id = docStore.id;
         store.reviews = await docReviews.docs.map((doc) => {
             let { storeId, ...review } = doc.data();
             return {
