@@ -77,6 +77,54 @@ module.exports = router;
 
 /**
  * @swagger
+ * /store/{storeId}/favorite:
+ *   post:
+ *     tags: [Store]
+ *     summary: 가게 즐겨찾기 추가
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}/unfavorite:
+ *   delete:
+ *     tags: [Store]
+ *     summary: 가게 즐겨찾기 삭제
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */
+
+/**
+ * @swagger
  * /store/{storeId}/review:
  *   post:
  *     tags: [Store]
