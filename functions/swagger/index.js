@@ -12,8 +12,8 @@ module.exports = {
             description: "DevTarian API Doc \n [Website]: www.example.com",
         },
         scheme: "https:",
-        host: "localhost:5001/project-devtarian/asia-northeast3",
-        //host: "asia-northeast3-project-devtarian.cloudfunctions.net",
+        //host: "localhost:5001/project-devtarian/asia-northeast3",
+        host: "asia-northeast3-project-devtarian.cloudfunctions.net",
         basePath: "/api",
         definitions: {
             request_signin_post: {
