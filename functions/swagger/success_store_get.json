@@ -2,7 +2,7 @@
     "type": "object",
     "properties": {
         "id": {
-            "example": "YbvnHdy8lso5tTqzAXIn",
+            "example": "YxRlt4Nm5d7I4VpoT6gl",
             "type": "string"
           },
         "createdAt": {
@@ -34,8 +34,7 @@
             },
             "required": ["_latitude", "_longitude"]
         },
-        "Store": {
-            "title": "Store",
+        "info": {
             "type": "object",
             "properties": {
                 "addrDetail": {

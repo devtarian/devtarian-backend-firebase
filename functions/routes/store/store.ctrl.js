@@ -6,11 +6,11 @@ const checkUserId = require("../../utils/checkUserId");
 exports.createStore = async (req, res) => {
     try {
         const newStore = {};
-        const { lat, lng, ...store } = req.body;
+        const { lat, lng, ...info } = req.body;
 
         newStore.writer = req.user.username;
         newStore.coordinates = new admin.firestore.GeoPoint(lat, lng);
-        newStore.store = store;
+        newStore.info = info;
         newStore.createdAt = new Date().toISOString();
         newStore.reviews = 0;
         newStore.favorite = false;

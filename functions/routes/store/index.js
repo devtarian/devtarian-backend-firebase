@@ -68,7 +68,7 @@ module.exports = router;
  *         description: "Bearer {token}"
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YbvnHdy8lso5tTqzAXIn"
+ *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -94,7 +94,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YbvnHdy8lso5tTqzAXIn"
+ *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -118,7 +118,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YbvnHdy8lso5tTqzAXIn"
+ *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -142,7 +142,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YbvnHdy8lso5tTqzAXIn"
+ *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
  *         required: true
  *         type: "string"
  *       - name: "body"
