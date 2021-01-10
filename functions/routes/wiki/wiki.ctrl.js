@@ -44,7 +44,7 @@ exports.getWiki = async (req, res) => {
                         .where("userId", "==", userId)
                         .limit(1)
                         .get();
-                    favorite = docFavorite.docs.length > 0 ? true : false;
+                    favorite = docFavorite.empty ? false : true;
                 }
                 return {
                     id: doc.id,
@@ -53,7 +53,6 @@ exports.getWiki = async (req, res) => {
                 };
             })
         );
-        console.log(wiki);
         return res.status(200).json(wiki);
     } catch (err) {
         console.log(err);
@@ -183,6 +182,22 @@ exports.createWikiComment = async (req, res) => {
 
 exports.likeWikiComment = async (req, res) => {
     try {
+        const wikiId = req.params.wikiId;
+        const userId = req.user.userId;
+
+        const docLike = await db
+            .collection("like")
+            .where("wikiId", "==", wikiId)
+            .where("userId", "==", userId)
+            .limit(1)
+            .get();
+
+        if (docLike.docs.length > 0) {
+            return res.status(400).json({ error: "Comment already liked" });
+        }
+
+        await db.collection("like").add({ wikiId, userId });
+
         return res.status(200).json({});
     } catch (err) {
         console.log(err);
@@ -192,6 +207,23 @@ exports.likeWikiComment = async (req, res) => {
 
 exports.unLikeWikiComment = async (req, res) => {
     try {
+        const wikiId = req.params.wikiId;
+        const userId = req.user.userId;
+
+        const docLike = await db
+            .collection("like")
+            .where("wikiId", "==", wikiId)
+            .where("userId", "==", userId)
+            .limit(1)
+            .get();
+
+        if (docLike.docs.length === 0) {
+            return res.status(400).json({ error: "Review already unLiked" });
+        }
+
+        const likeId = docLike.docs[0].id;
+        await db.doc(`/like/${likeId}`).delete();
+
         return res.status(200).json({});
     } catch (err) {
         console.log(err);

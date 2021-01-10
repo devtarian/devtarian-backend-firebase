@@ -31,7 +31,7 @@ module.exports = router;
  *   post:
  *     tags: [Store]
  *     summary: 가게 정보 등록
- *     description: ""
+ *     description: "body"
  *     parameters:
  *       - name: "Authorization"
  *         in: "header"
@@ -53,8 +53,6 @@ module.exports = router;
  *     responses:
  *       200:
  *         description: Success(성공)
- *         schema:
- *           $ref: "#/definitions/request_store_post"
  */
 
 /**
@@ -63,11 +61,14 @@ module.exports = router;
  *   get:
  *     tags: [Store]
  *     summary: 가게 정보 조회
- *     description: ""
+ *     description: "토큰 있을 시 즐겨찾기 여부 추가됌, 토큰없으면 false"
  *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         description: "example: YbvnHdy8lso5tTqzAXIn"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -93,7 +94,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         description: "example: YbvnHdy8lso5tTqzAXIn"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -117,7 +118,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         description: "example: YbvnHdy8lso5tTqzAXIn"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -141,7 +142,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: 0NVdtZRHFEmoQ0qKV0us"
+ *         description: "example: YbvnHdy8lso5tTqzAXIn"
  *         required: true
  *         type: "string"
  *       - name: "body"

@@ -39,7 +39,6 @@ exports.signIn = async (req, res) => {
 exports.signUp = async (req, res) => {
     try {
         let { imgUrls, ...newUser } = req.body;
-
         const thumbNail =
             imgUrls.length !== 0
                 ? imgUrls[0]
@@ -83,7 +82,6 @@ exports.signUp = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        console.log(req.user);
         return res.status(200).json({ ...req.user });
     } catch (err) {
         return res.status(500).json({

@@ -1,6 +1,7 @@
 const { firebase, admin, db } = require("../../fbAdmin");
 const config = require("../../config");
 const { GeoFirestore } = require("geofirestore");
+const checkUserId = require("../../utils/checkUserId");
 
 exports.createStore = async (req, res) => {
     try {
@@ -11,14 +12,14 @@ exports.createStore = async (req, res) => {
         newStore.coordinates = new admin.firestore.GeoPoint(lat, lng);
         newStore.store = store;
         newStore.createdAt = new Date().toISOString();
-        newStore.reviewCount = 0;
+        newStore.reviews = 0;
         newStore.favorite = false;
 
         const geoFirestore = new GeoFirestore(db);
         const collection = geoFirestore.collection("store");
 
         await collection.add(newStore);
-        return res.status(200).json(newStore);
+        return res.status(200).json({});
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: err });
@@ -27,6 +28,7 @@ exports.createStore = async (req, res) => {
 
 exports.getStoreDetail = async (req, res) => {
     try {
+        const userId = await checkUserId(req);
         const storeId = req.params.storeId;
         const docStore = await db.doc(`/store/${storeId}`).get();
         if (!docStore.exists) {
@@ -35,15 +37,28 @@ exports.getStoreDetail = async (req, res) => {
                 .json({ error: "일치하는 Stores가 없습니다." });
         }
 
-        const store = docStore.data();
+        const { g, ...store } = docStore.data();
+        store.id = docStore.id;
+
+        let favorite = false;
+        if (userId) {
+            const docFavorite = await db
+                .collection("favorite")
+                .where("storeId", "==", storeId)
+                .where("userId", "==", userId)
+                .limit(1)
+                .get();
+            favorite = docFavorite.empty ? false : true;
+        }
+
+        store.favorite = favorite;
         const docReviews = await db
             .collection("review")
             .where("storeId", "==", storeId)
             .orderBy("createdAt", "desc")
             .get();
 
-        store.id = docStore.id;
-        store.reviews = await docReviews.docs.map((doc) => {
+        store.reviewList = await docReviews.docs.map((doc) => {
             let { storeId, ...review } = doc.data();
             return {
                 id: doc.id,
@@ -121,14 +136,15 @@ exports.createReview = async (req, res) => {
             return res.status(404).json({ error: "Store not found" });
         }
 
-        const reviewCount = store.data().reviewCount + 1;
-        await store.ref.update({ reviewCount });
+        const reviews = store.data().reviews + 1;
+        await store.ref.update({ reviews });
 
         newReview.storeId = storeId;
         newReview.writer = req.user.username;
-        newReview.reviewCount = reviewCount;
+        newReview.reviews = reviews;
         newReview.createdAt = new Date().toISOString();
         newReview.likes = 0;
+        newReview.comments = 0;
         newReview.likesOfMe = false;
 
         await db.collection("review").add(newReview);
@@ -139,6 +155,9 @@ exports.createReview = async (req, res) => {
     }
 };
 
+// [TODO]
+// delete Review
+// reviews -1
 exports.getComment = async (req, res) => {
     try {
         const reviewId = req.params.reviewId;
@@ -173,6 +192,9 @@ exports.createComment = async (req, res) => {
             return res.status(404).json({ error: "review not found" });
         }
 
+        const comments = review.data().comments + 1;
+        await review.ref.update({ comments });
+
         newComment.writer = req.user.username;
         newComment.reviewId = req.params.reviewId;
         newComment.createdAt = new Date().toISOString();
@@ -190,6 +212,13 @@ exports.likeReview = async (req, res) => {
     try {
         const reviewId = req.params.reviewId;
         const userId = req.user.userId;
+
+        const review = await db.doc(`/review/${reviewId}`).get();
+        if (!review.exists)
+            return res.status(404).json({ error: "review not found" });
+
+        const likes = review.data().likes + 1;
+        await review.ref.update({ likes });
 
         const docLike = await db
             .collection("like")
@@ -213,8 +242,15 @@ exports.likeReview = async (req, res) => {
 
 exports.unlikeReview = async (req, res) => {
     try {
-        const reviewId = req.params.reviewId;
         const userId = req.user.userId;
+        const reviewId = req.params.reviewId;
+
+        const review = await db.doc(`/review/${reviewId}`).get();
+        if (!review.exists)
+            return res.status(404).json({ error: "review not found" });
+
+        const likes = review.data().likes - 1;
+        await review.ref.update({ likes });
 
         const docLike = await db
             .collection("like")
@@ -223,7 +259,8 @@ exports.unlikeReview = async (req, res) => {
             .limit(1)
             .get();
 
-        if (docLike.docs.length === 0) {
+        if (docLike.empty) {
+            // empty
             return res.status(400).json({ error: "Review already unLiked" });
         }
 

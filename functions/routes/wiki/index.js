@@ -187,3 +187,32 @@ module.exports = router;
  *         schema:
  *           $ref: "#/definitions/success_wikiComment_post"
  */
+
+/**
+ * @swagger
+ * /wiki/{wikiId}/comment/{commentId}/like:
+ *   post:
+ *     tags: [Wiki]
+ *     summary: wiki 댓글 좋아요
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "wikiId"
+ *         in: "path"
+ *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         required: true
+ *         type: "string"
+ *       - name: "commentId"
+ *         in: "path"
+ *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         required: true
+ *         type: "string"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */

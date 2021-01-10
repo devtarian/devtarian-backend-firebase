@@ -1,37 +1,22 @@
 {
     "type": "object",
     "properties": {
-        "G": {
-            "title": "G",
-            "type": "object",
-            "properties": {
-                "geohash": {
-                    "example": "wvfn21mpv1",
-                    "type": "string"
-                },
-                "geopoint": {
-                    "$ref": "#/definitions/Geopoint"
-                }
-            },
-            "required": ["geohash", "geopoint"]
-        },
-        "Geopoint": {
-            "title": "Geopoint",
-            "type": "object",
-            "properties": {
-                "_latitude": {
-                    "example": 33.4505888422521,
-                    "type": "number",
-                    "format": "double"
-                },
-                "_longitude": {
-                    "example": 126.569586220983,
-                    "type": "number",
-                    "format": "double"
-                }
-            },
-            "required": ["_latitude", "_longitude"]
-        },
+        "id": {
+            "example": "YbvnHdy8lso5tTqzAXIn",
+            "type": "string"
+          },
+        "createdAt": {
+            "example": "2020-12-25T02:59:14.106Z",
+            "type": "string"
+          },
+          "writer": {
+            "example": "username",
+            "type": "string"
+          },
+          "favorite": {
+            "example": "false",
+            "type": "string"
+          },
         "Coordinates": {
             "title": "Coordinates",
             "type": "object",
@@ -53,13 +38,6 @@
             "title": "Store",
             "type": "object",
             "properties": {
-                "imgFileURLs": {
-                    "example": [],
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
                 "addrDetail": {
                     "example": "1111111",
                     "type": "string"
@@ -86,21 +64,9 @@
                     "example": "321321",
                     "type": "string"
                 },
-                "imgFiles": {
-                    "example": [],
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "addr": {
-                    "example": "제주특별자치도 제주시 영평동 2181",
+                "address": {
+                    "example": "제주특별자치도 제주시 영평동 2181 상세정보",
                     "type": "string"
-                },
-                "step": {
-                    "example": 2,
-                    "type": "integer",
-                    "format": "int32"
                 },
                 "menuList": {
                     "example": [
@@ -161,49 +127,20 @@
                     "example": "111111111111",
                     "type": "string"
                 },
-                "address": {
+                "operatingHoursMemo":{
+                    "example": "기타사항",
                     "type": "string"
                 }
-            },
-            "required": [
-                "imgFileURLs",
-                "addrDetail",
-                "imgUrls",
-                "region",
-                "storeName",
-                "contents",
-                "imgFiles",
-                "addr",
-                "step",
-                "menuList",
-                "starRating",
-                "vegType",
-                "operatingHours",
-                "contactNum",
-                "address"
-            ]
+            }
+            
         },
-        "MenuList": {
-            "title": "MenuList",
-            "type": "object",
-            "properties": {
-                "vegtype": {
-                    "example": "락토",
-                    "type": "string"
-                },
-                "menu": {
-                    "example": "111",
-                    "type": "string"
-                },
-                "price": {
-                    "example": "1111",
-                    "type": "string"
-                }
-            },
-            "required": ["vegtype", "menu", "price"]
+        
+        "reviews": {
+            "example": 0,
+            "type": "integer",
+            "format": "int32"
         },
-        "Review": {
-            "title": "Review",
+        "reviewList": {
             "type": "object",
             "properties": {
                 "id": {
@@ -249,7 +186,7 @@
                         "type": "string"
                     }
                 },
-                "reviewCount": {
+                "reviews": {
                     "example": 3,
                     "type": "integer",
                     "format": "int32"
@@ -274,7 +211,7 @@
                 "likesOfMe",
                 "category",
                 "imgUrls",
-                "reviewCount",
+                "reviews",
                 "writer",
                 "starRating"
             ]
