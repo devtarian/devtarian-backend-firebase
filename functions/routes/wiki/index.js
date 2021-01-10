@@ -8,8 +8,6 @@ const {
     favoriteWiki,
     unfavoriteWiki,
     createWikiComment,
-    likeWikiComment,
-    unLikeWikiComment,
 } = require("./wiki.ctrl");
 
 router.get("/", getWiki);
@@ -18,8 +16,6 @@ router.get("/:wikiId", getWikiDetail);
 router.post("/:wikiId/favorite", protect, favoriteWiki);
 router.delete("/:wikiId/unfavorite", protect, unfavoriteWiki);
 router.post("/:wikiId/comment", protect, createWikiComment);
-router.post("/:wikiId/comment/:commentId/like", protect, likeWikiComment);
-router.delete("/:wikiId/comment/:commentId/unlike", protect, unLikeWikiComment);
 
 module.exports = router;
 
@@ -51,7 +47,10 @@ module.exports = router;
  *     responses:
  *       200:
  *         description: Success(성공)
-
+ *         schema:
+ *           type: "array"
+ *           items:
+ *             $ref: "#/definitions/success_wiki_get"
  */
 
 /**
@@ -186,33 +185,4 @@ module.exports = router;
  *         description: Success(성공)
  *         schema:
  *           $ref: "#/definitions/success_wikiComment_post"
- */
-
-/**
- * @swagger
- * /wiki/{wikiId}/comment/{commentId}/like:
- *   post:
- *     tags: [Wiki]
- *     summary: wiki 댓글 좋아요
- *     description: ""
- *     parameters:
- *       - name: "Authorization"
- *         in: "header"
- *         description: "Bearer {token}"
- *         required: true
- *       - name: "wikiId"
- *         in: "path"
- *         description: "example: UqHcUaYWye5D1wb2WIY9"
- *         required: true
- *         type: "string"
- *       - name: "commentId"
- *         in: "path"
- *         description: "example: UqHcUaYWye5D1wb2WIY9"
- *         required: true
- *         type: "string"
- *     consumes: "application/json"
- *     produces: "application/json"
- *     responses:
- *       200:
- *         description: Success(성공)
  */

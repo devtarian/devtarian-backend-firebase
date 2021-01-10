@@ -34,7 +34,7 @@ exports.getWiki = async (req, res) => {
 
         wiki = await Promise.all(
             wiki.docs.map(async (doc) => {
-                const { commentList, comments, ...rest } = doc.data();
+                const { commentList, comments, imgUrls, ...rest } = doc.data();
 
                 let favorite = false;
                 if (userId) {
@@ -50,6 +50,7 @@ exports.getWiki = async (req, res) => {
                     id: doc.id,
                     favorite,
                     ...rest,
+                    imgUrl: imgUrls[0] ? imgUrls[0] : "",
                 };
             })
         );
@@ -167,6 +168,9 @@ exports.createWikiComment = async (req, res) => {
             return escape.status(404).json({ error: "wiki not found" });
         }
 
+        const comments = wiki.data().comments + 1;
+        await wiki.ref.update({ comments });
+
         newComment.writer = req.user.username;
         newComment.wikiId = wikiId;
         newComment.createdAt = new Date().toISOString();
@@ -174,57 +178,6 @@ exports.createWikiComment = async (req, res) => {
         await db.collection("comment").add(newComment);
 
         return res.status(200).json(newComment);
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ error: err });
-    }
-};
-
-exports.likeWikiComment = async (req, res) => {
-    try {
-        const wikiId = req.params.wikiId;
-        const userId = req.user.userId;
-
-        const docLike = await db
-            .collection("like")
-            .where("wikiId", "==", wikiId)
-            .where("userId", "==", userId)
-            .limit(1)
-            .get();
-
-        if (docLike.docs.length > 0) {
-            return res.status(400).json({ error: "Comment already liked" });
-        }
-
-        await db.collection("like").add({ wikiId, userId });
-
-        return res.status(200).json({});
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ error: err });
-    }
-};
-
-exports.unLikeWikiComment = async (req, res) => {
-    try {
-        const wikiId = req.params.wikiId;
-        const userId = req.user.userId;
-
-        const docLike = await db
-            .collection("like")
-            .where("wikiId", "==", wikiId)
-            .where("userId", "==", userId)
-            .limit(1)
-            .get();
-
-        if (docLike.docs.length === 0) {
-            return res.status(400).json({ error: "Review already unLiked" });
-        }
-
-        const likeId = docLike.docs[0].id;
-        await db.doc(`/like/${likeId}`).delete();
-
-        return res.status(200).json({});
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: err });

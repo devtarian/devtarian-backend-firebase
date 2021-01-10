@@ -1,0 +1,34 @@
+{
+    "type":"object",
+    "properties": {
+        "id": {
+            "example": "UqHcUaYWye5D1wb2WIY9",
+            "type": "string"
+          },
+          "favorite": {
+            "example": "false",
+            "type": "string"
+          },
+          "category": {
+            "example": "과자/간식",
+            "type": "string"
+          },
+          "createdAt": {
+            "example": "2021-01-06T08:19:09.380Z",
+            "type": "string"
+          },
+          "product": {
+            "example": "상품명",
+            "type": "string"
+          },
+          "ingredient": {
+            "example": "성분",
+            "type": "string"
+          }
+          ,"imgUrl": {
+            "example": "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/105488.jpeg?alt=media",
+            "type": "string"
+          }
+        }
+        
+}
