@@ -7,6 +7,7 @@ const success_auth_me_get = require("./success_auth_me_get.json");
 const success_wiki_post = require("./success_wiki_post.json");
 const success_wikiDetail_post = require("./success_wikiDetail_post.json");
 const success_wikiComment_post = require("./success_wikiComment_post.json");
+const success_comment_get = require("./success_comment_get.json");
 
 module.exports = {
     swaggerDefinition: {
@@ -16,8 +17,8 @@ module.exports = {
             description: "DevTarian API Doc \n [Website]: www.example.com",
         },
         scheme: "https:",
-        host: "localhost:5001/project-devtarian/asia-northeast3",
-        //host: "asia-northeast3-project-devtarian.cloudfunctions.net",
+        //host: "localhost:5001/project-devtarian/asia-northeast3",
+        host: "asia-northeast3-project-devtarian.cloudfunctions.net",
         basePath: "/api",
         definitions: {
             comment: {
@@ -99,6 +100,7 @@ module.exports = {
             success_auth_me_get,
             success_store_post: {},
             success_store_get,
+            success_comment_get,
             success_comment_post,
             success_wiki_post,
             success_wikiDetail_post,

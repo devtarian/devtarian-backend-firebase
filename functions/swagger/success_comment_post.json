@@ -1,6 +1,10 @@
 {
     "type":"object",
     "properties": {
+        "id": {
+          "example": "ikh30xMBPsvvwiF7v9ss",
+          "type": "string"
+        },
         "contents": {
             "example": "fewfew",
             "type": "string"
@@ -10,7 +14,7 @@
             "type": "string"
           },
           "reviewId": {
-            "example": "FCbZ9kFrluXS9NA1Rxvh",
+            "example": "7UtpenJNg997WQM2x3Vx",
             "type": "string"
           },
           "createdAt": {

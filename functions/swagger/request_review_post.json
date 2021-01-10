@@ -5,10 +5,6 @@
             "example": "가게",
             "type": "string"
           },
-          "vegLevel": {
-            "example": "오보",
-            "type": "string"
-          },
           "starRating": {
             "example": 4,
             "type": "integer",

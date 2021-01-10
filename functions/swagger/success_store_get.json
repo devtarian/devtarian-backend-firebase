@@ -144,7 +144,7 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "example": "iyvunsny7gkMBV1QrwBE",
+                    "example": "7UtpenJNg997WQM2x3Vx",
                     "type": "string"
                 },
                 "likes": {

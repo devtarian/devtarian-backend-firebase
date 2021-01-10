@@ -129,19 +129,14 @@ exports.createReview = async (req, res) => {
     try {
         const storeId = req.params.storeId;
         const newReview = req.body;
-
         const store = await db.doc(`/store/${storeId}`).get();
 
         if (!store.exists) {
             return res.status(404).json({ error: "Store not found" });
         }
 
-        const reviews = store.data().reviews + 1;
-        await store.ref.update({ reviews });
-
         newReview.storeId = storeId;
         newReview.writer = req.user.username;
-        newReview.reviews = reviews;
         newReview.createdAt = new Date().toISOString();
         newReview.likes = 0;
         newReview.comments = 0;
@@ -149,7 +144,7 @@ exports.createReview = async (req, res) => {
 
         await db.collection("review").add(newReview);
 
-        return res.status(200).json(newReview);
+        return res.status(200).json({});
     } catch (err) {
         return res.status(500).json({ error: err });
     }
@@ -199,7 +194,8 @@ exports.createComment = async (req, res) => {
         newComment.reviewId = req.params.reviewId;
         newComment.createdAt = new Date().toISOString();
 
-        await db.collection("comment").add(newComment);
+        const docComment = await db.collection("comment").add(newComment);
+        newComment.id = docComment.id;
 
         return res.status(200).json(newComment);
     } catch (err) {

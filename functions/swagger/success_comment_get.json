@@ -1,5 +1,22 @@
 {
-    
-        
+  "type":"object",
+  "properties": {
+      "id": {
+        "example": "ikh30xMBPsvvwiF7v9ss",
+        "type": "string"
+      },
+      "contents": {
+          "example": "fewfew",
+          "type": "string"
+        },
+        "writer": {
+          "example": "유저",
+          "type": "string"
+        },
+        "createdAt": {
+          "example": "2021-01-06T17:34:48.110Z",
+          "type": "string"
+        }
+      }
+      
 }
-

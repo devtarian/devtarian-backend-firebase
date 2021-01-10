@@ -161,8 +161,6 @@ module.exports = router;
  *     responses:
  *       200:
  *         description: Success(성공)
- *         schema:
- *           $ref: "#/definitions/request_review_post"
  */
 
 /**
@@ -175,7 +173,7 @@ module.exports = router;
  *     parameters:
  *       - name: "reviewId"
  *         in: "path"
- *         description: "example: 2ComGXvSo3XaNA1YNuQI"
+ *         description: "example: 7UtpenJNg997WQM2x3Vx"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -184,7 +182,9 @@ module.exports = router;
  *       200:
  *         description: Success(성공)
  *         schema:
- *           $ref: "#/definitions/success_comment_get"
+ *           type: "array"
+ *           items:
+ *             $ref: "#/definitions/success_comment_get"
  */
 
 /**
@@ -201,7 +201,7 @@ module.exports = router;
  *         required: true
  *       - name: "reviewId"
  *         in: "path"
- *         description: "example: FCbZ9kFrluXS9NA1Rxvh"
+ *         description: "example: 7UtpenJNg997WQM2x3Vx"
  *         required: true
  *         type: "string"
  *       - name: "request"
@@ -233,7 +233,7 @@ module.exports = router;
  *         required: true
  *       - name: "reviewId"
  *         in: "path"
- *         description: "example: 2ComGXvSo3XaNA1YNuQI"
+ *         description: "example: 7UtpenJNg997WQM2x3Vx"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -257,7 +257,7 @@ module.exports = router;
  *         required: true
  *       - name: "reviewId"
  *         in: "path"
- *         description: "example: 2ComGXvSo3XaNA1YNuQI"
+ *         description: "example: 7UtpenJNg997WQM2x3Vx"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
