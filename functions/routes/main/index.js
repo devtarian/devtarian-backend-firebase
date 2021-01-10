@@ -14,6 +14,9 @@ module.exports = router;
  *     summary: 메인 페이지 데이터
  *     description: ""
  *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
  *       - name: "lat"
  *         in: "query"
  *         description: "[Example] 33.450701"
