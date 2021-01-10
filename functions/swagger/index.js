@@ -6,6 +6,8 @@ const success_store_get = require("./success_store_get.json");
 const success_auth_me_get = require("./success_auth_me_get.json");
 const success_wiki_post = require("./success_wiki_post.json");
 const success_wikiDetail_post = require("./success_wikiDetail_post.json");
+const success_wikiComment_post = require("./success_wikiComment_post.json");
+
 module.exports = {
     swaggerDefinition: {
         info: {
@@ -100,6 +102,7 @@ module.exports = {
             success_comment_post,
             success_wiki_post,
             success_wikiDetail_post,
+            success_wikiComment_post,
         },
     },
     // Path to the API docs

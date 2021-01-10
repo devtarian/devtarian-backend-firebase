@@ -160,7 +160,21 @@ exports.unfavoriteWiki = async (req, res) => {
 
 exports.createWikiComment = async (req, res) => {
     try {
-        return res.status(200).json({});
+        const wikiId = req.params.wikiId;
+        const newComment = req.body;
+
+        const wiki = await db.doc(`wiki/${wikiId}`).get();
+        if (!wiki.exists) {
+            return escape.status(404).json({ error: "wiki not found" });
+        }
+
+        newComment.writer = req.user.username;
+        newComment.wikiId = wikiId;
+        newComment.createdAt = new Date().toISOString();
+
+        await db.collection("comment").add(newComment);
+
+        return res.status(200).json(newComment);
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: err });

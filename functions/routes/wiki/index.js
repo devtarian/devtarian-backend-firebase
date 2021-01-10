@@ -155,3 +155,35 @@ module.exports = router;
  *       200:
  *         description: Success(성공)
  */
+
+/**
+ * @swagger
+ * /wiki/{wikiId}/comment:
+ *   post:
+ *     tags: [Wiki]
+ *     summary: 비건 편의점 상품 댓글 등록
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "wikiId"
+ *         in: "path"
+ *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         required: true
+ *         type: "string"
+ *       - name: "request"
+ *         in: "body"
+ *         description: "user object that needs to be added"
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/request_comment_post"
+ *     consumes: "application/json"
+ *     produces: "application/json"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ *         schema:
+ *           $ref: "#/definitions/success_wikiComment_post"
+ */

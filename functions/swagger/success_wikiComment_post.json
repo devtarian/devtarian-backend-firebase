@@ -1,0 +1,22 @@
+{
+    "type":"object",
+    "properties": {
+        "contents": {
+            "example": "fewfew",
+            "type": "string"
+          },
+          "writer": {
+            "example": "유저",
+            "type": "string"
+          },
+          "wikiId": {
+            "example": "UqHcUaYWye5D1wb2WIY9",
+            "type": "string"
+          },
+          "createdAt": {
+            "example": "2021-01-06T17:34:48.110Z",
+            "type": "string"
+          }
+        }
+        
+}
