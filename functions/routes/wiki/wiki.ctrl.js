@@ -1,5 +1,7 @@
 const { firebase, db } = require("../../fbAdmin");
 const checkUserId = require("../../utils/checkUserId");
+const checkLikesOfMe = require("../../utils/checkLikesOfMe");
+const checkFavorite = require("../../utils/checkFavorite");
 
 exports.getWiki = async (req, res) => {
     const orderMap = {

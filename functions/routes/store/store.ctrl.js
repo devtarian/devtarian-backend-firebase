@@ -1,7 +1,8 @@
 const { firebase, admin, db } = require("../../fbAdmin");
 const config = require("../../config");
 const { GeoFirestore } = require("geofirestore");
-const checkUserId = require("../../utils/checkUserId");
+const checkLikesOfMe = require("../../utils/checkLikesOfMe");
+const checkFavorite = require("../../utils/checkFavorite");
 
 exports.createStore = async (req, res) => {
     try {
@@ -28,7 +29,6 @@ exports.createStore = async (req, res) => {
 
 exports.getStoreDetail = async (req, res) => {
     try {
-        const userId = await checkUserId(req);
         const storeId = req.params.storeId;
         const docStore = await db.doc(`/store/${storeId}`).get();
         if (!docStore.exists) {
@@ -37,34 +37,27 @@ exports.getStoreDetail = async (req, res) => {
                 .json({ error: "일치하는 Stores가 없습니다." });
         }
 
-        const { g, ...store } = docStore.data();
+        let { g, ...store } = docStore.data();
         store.id = docStore.id;
+        store.favorite = await checkFavorite(req, "storeId", docStore.id);
 
-        let favorite = false;
-        if (userId) {
-            const docFavorite = await db
-                .collection("favorite")
-                .where("storeId", "==", storeId)
-                .where("userId", "==", userId)
-                .limit(1)
-                .get();
-            favorite = docFavorite.empty ? false : true;
-        }
-
-        store.favorite = favorite;
         const docReviews = await db
             .collection("review")
             .where("storeId", "==", storeId)
             .orderBy("createdAt", "desc")
             .get();
 
-        store.reviewList = await docReviews.docs.map((doc) => {
-            let { storeId, ...review } = doc.data();
-            return {
-                id: doc.id,
-                ...review,
-            };
-        });
+        store.reviewList = await Promise.all(
+            docReviews.docs.map(async (doc) => {
+                let { storeId, imgUrls, ...review } = doc.data();
+                return {
+                    ...review,
+                    id: doc.id,
+                    imgUrl: imgUrls[0] ? imgUrls[0] : "",
+                    likesOfMe: await checkLikesOfMe(req, "reviewId", doc.id),
+                };
+            })
+        );
 
         return res.status(200).json(store);
     } catch (err) {

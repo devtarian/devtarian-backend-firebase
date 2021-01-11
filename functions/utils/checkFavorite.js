@@ -20,6 +20,7 @@ module.exports = checkFavorite = async (req, key, value) => {
             .where("userId", "==", userId)
             .limit(1)
             .get();
+
         return favoriteDoc.docs.length === 0 ? false : true;
     } catch (err) {
         console.error(err);
