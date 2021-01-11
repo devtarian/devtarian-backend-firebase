@@ -20,11 +20,9 @@ module.exports = router;
  *       - name: "lat"
  *         in: "query"
  *         description: "[Example] 33.450701"
- *         required: true
  *       - name: "lng"
  *         in: "query"
  *         description: "[Example] 126.570667"
- *         required: true
  *     consumes: "application/json"
  *     produces: "application/json"
  *     responses:

@@ -1,17 +1,19 @@
 const { firebase, db } = require("../../fbAdmin");
 const { GeoFirestore } = require("geofirestore");
 const checkFavorite = require("../../utils/checkFavorite");
+const checkLikesOfMe = require("../../utils/checkLikesOfMe");
 
 exports.getMain = async (req, res) => {
     try {
-        const lat = Number(req.query.lat);
-        const lng = Number(req.query.lng);
+        const lat = Number(req.query.lat || 37.573);
+        const lng = Number(req.query.lng || 126.9794);
         const geocollection = new GeoFirestore(db).collection("store");
         const storeSnap = await geocollection
             .near({
-                radius: 10, // km
+                radius: 5, // km
                 center: new firebase.firestore.GeoPoint(lat, lng),
             })
+            .limit(4)
             .get();
 
         const store = await Promise.all(
@@ -25,14 +27,31 @@ exports.getMain = async (req, res) => {
             })
         );
 
-        const WikiDoc = await db
+        const ratedDoc = await db
+            .collection("store")
+            .orderBy("info.starRating", "desc")
+            .limit(4)
+            .get();
+
+        const rated = await Promise.all(
+            ratedDoc.docs.map(async (doc) => {
+                let { g, ...rest } = doc.data();
+                return {
+                    ...rest,
+                    id: doc.id,
+                    favorite: await checkFavorite(req, "storeId", doc.id),
+                };
+            })
+        );
+
+        const wikiDoc = await db
             .collection("wiki")
             .orderBy("createdAt", "desc")
-            .limit(5)
+            .limit(4)
             .get();
 
         const wiki = await Promise.all(
-            WikiDoc.docs.map(async (doc) => {
+            wikiDoc.docs.map(async (doc) => {
                 const { imgUrls, ...rest } = doc.data();
                 return {
                     ...rest,
@@ -46,7 +65,7 @@ exports.getMain = async (req, res) => {
         const reviewDoc = await db
             .collection("review")
             .orderBy("createdAt", "desc")
-            .limit(5)
+            .limit(4)
             .get();
 
         const review = await Promise.all(
@@ -56,12 +75,12 @@ exports.getMain = async (req, res) => {
                     ...rest,
                     id: doc.id,
                     imgUrl: imgUrls[0] ? imgUrls[0] : "",
-                    favorite: await checkFavorite(req, "reviewId", doc.id),
+                    likesOfMe: await checkLikesOfMe(req, "reviewId", doc.id),
                 };
             })
         );
 
-        return res.status(200).json({ store, wiki, review });
+        return res.status(200).json({ store, rated, wiki, review });
     } catch (err) {
         console.log(err);
         return res.status(500).json({
