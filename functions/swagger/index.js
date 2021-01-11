@@ -29,10 +29,6 @@ module.exports = {
                         example: "fewdwfew",
                         type: "string",
                     },
-                    writer: {
-                        example: "작성자",
-                        type: "string",
-                    },
                     contents: {
                         example: "내용",
                         type: "string",
@@ -40,6 +36,24 @@ module.exports = {
                     createdAt: {
                         example: "2021-01-06T08:47:30.167Z",
                         type: "string",
+                    },
+                    writer: {
+                        type: "object",
+                        properties: {
+                            userId: {
+                                example: "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                                type: "string",
+                            },
+                            username: {
+                                example: "bbbbb",
+                                type: "string",
+                            },
+                            thumbNail: {
+                                example:
+                                    "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                                type: "string",
+                            },
+                        },
                     },
                 },
             },

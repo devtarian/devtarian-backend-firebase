@@ -5,10 +5,6 @@
             "example": "fewfew",
             "type": "string"
           },
-          "writer": {
-            "example": "유저",
-            "type": "string"
-          },
           "wikiId": {
             "example": "UqHcUaYWye5D1wb2WIY9",
             "type": "string"
@@ -16,6 +12,24 @@
           "createdAt": {
             "example": "2021-01-06T17:34:48.110Z",
             "type": "string"
+          },
+          "writer": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "example": "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                    "type": "string"
+                },
+                "username": {
+                    "example": "bbbbb",
+                    "type": "string"
+                },
+                "thumbNail": {
+                    "example":
+                        "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                    "type": "string"
+                }
+            }
           }
         }
         

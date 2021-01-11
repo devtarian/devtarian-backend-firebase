@@ -10,8 +10,22 @@
             "type": "string"
           },
           "writer": {
-            "example": "username",
-            "type": "string"
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "example": "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                    "type": "string"
+                },
+                "username": {
+                    "example": "bbbbb",
+                    "type": "string"
+                },
+                "thumbNail": {
+                    "example":
+                        "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                    "type": "string"
+                }
+            }
           },
           "favorite": {
             "example": "false",
@@ -191,9 +205,23 @@
                     "format": "int32"
                 },
                 "writer": {
-                    "example": "bbbbb",
-                    "type": "string"
-                },
+                    "type": "object",
+                    "properties": {
+                        "userId": {
+                            "example": "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                            "type": "string"
+                        },
+                        "username": {
+                            "example": "bbbbb",
+                            "type": "string"
+                        },
+                        "thumbNail": {
+                            "example":
+                                "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                            "type": "string"
+                        }
+                    }
+                  },
                 "starRating": {
                     "example": 3.5,
                     "type": "number",

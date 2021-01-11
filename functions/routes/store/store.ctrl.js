@@ -7,8 +7,8 @@ exports.createStore = async (req, res) => {
     try {
         const newStore = {};
         const { lat, lng, ...info } = req.body;
-
-        newStore.writer = req.user.username;
+        const { createdAt, email, ...user } = req.user;
+        newStore.writer = user;
         newStore.coordinates = new admin.firestore.GeoPoint(lat, lng);
         newStore.info = info;
         newStore.createdAt = new Date().toISOString();
@@ -134,9 +134,9 @@ exports.createReview = async (req, res) => {
         if (!store.exists) {
             return res.status(404).json({ error: "Store not found" });
         }
-
+        const { createdAt, email, ...user } = req.user;
         newReview.storeId = storeId;
-        newReview.writer = req.user.username;
+        newReview.writer = user;
         newReview.createdAt = new Date().toISOString();
         newReview.likes = 0;
         newReview.comments = 0;
@@ -190,7 +190,8 @@ exports.createComment = async (req, res) => {
         const comments = review.data().comments + 1;
         await review.ref.update({ comments });
 
-        newComment.writer = req.user.username;
+        const { createdAt, email, ...user } = req.user;
+        newComment.writer = user;
         newComment.reviewId = req.params.reviewId;
         newComment.createdAt = new Date().toISOString();
 

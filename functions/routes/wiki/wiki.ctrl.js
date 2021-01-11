@@ -170,8 +170,8 @@ exports.createWikiComment = async (req, res) => {
 
         const comments = wiki.data().comments + 1;
         await wiki.ref.update({ comments });
-
-        newComment.writer = req.user.username;
+        const { createdAt, email, ...user } = req.user;
+        newComment.writer = user;
         newComment.wikiId = wikiId;
         newComment.createdAt = new Date().toISOString();
 
