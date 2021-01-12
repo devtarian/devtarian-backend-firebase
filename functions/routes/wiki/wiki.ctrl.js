@@ -1,6 +1,4 @@
 const { firebase, db } = require("../../fbAdmin");
-const checkUserId = require("../../utils/checkUserId");
-const checkLikesOfMe = require("../../utils/checkLikesOfMe");
 const checkFavorite = require("../../utils/checkFavorite");
 
 exports.getWiki = async (req, res) => {
@@ -10,22 +8,20 @@ exports.getWiki = async (req, res) => {
         productAsc: { key: "product", order: "asc" },
     };
     try {
-        const userId = await checkUserId(req);
-
         const category = req.query.category || "all";
         const page = req.query.category || 1;
         const limit = req.query.category || 20;
         const order = req.query.category || "createdAt";
-        let wiki;
+        let wikiDoc;
         if (category === "all") {
-            wiki = await db
+            wikiDoc = await db
                 .collection("wiki")
                 .orderBy(orderMap[order].key, orderMap[order].order)
                 .offset((page - 1) * limit)
                 .limit(limit)
                 .get();
         } else {
-            wiki = await db
+            wikiDoc = await db
                 .collection("wiki")
                 .where("category", "==", category)
                 .orderBy(orderMap[order].key, orderMap[order].order)
@@ -34,24 +30,14 @@ exports.getWiki = async (req, res) => {
                 .get();
         }
 
-        wiki = await Promise.all(
-            wiki.docs.map(async (doc) => {
+        const wiki = await Promise.all(
+            wikiDoc.docs.map(async (doc) => {
                 const { commentList, comments, imgUrls, ...rest } = doc.data();
 
-                let favorite = false;
-                if (userId) {
-                    const docFavorite = await db
-                        .collection("favorite")
-                        .where("wikiId", "==", doc.id)
-                        .where("userId", "==", userId)
-                        .limit(1)
-                        .get();
-                    favorite = docFavorite.empty ? false : true;
-                }
                 return {
-                    id: doc.id,
-                    favorite,
                     ...rest,
+                    id: doc.id,
+                    favorite: await checkFavorite(req, "wikiId", doc.id),
                     imgUrl: imgUrls[0] ? imgUrls[0] : "",
                 };
             })
