@@ -27,6 +27,10 @@
                 }
             }
           },
+          "storeId": {
+            "example": "nszavgGiwL3M0qk2ixVP",
+            "type": "string"
+          },
           "reviewId": {
             "example": "7UtpenJNg997WQM2x3Vx",
             "type": "string"

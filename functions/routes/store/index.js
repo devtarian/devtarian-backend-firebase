@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
     createStore,
+    deleteStore,
     getStoreDetail,
     favoriteStore,
     unfavoriteStore,
@@ -14,6 +15,7 @@ const {
 const { protect, filesUpload } = require("../../middleware");
 
 router.post("/", protect, filesUpload, createStore);
+router.delete("/:storeId", protect, deleteStore);
 router.get("/:storeId", getStoreDetail);
 router.post("/:storeId/favorite", protect, favoriteStore);
 router.delete("/:storeId/unfavorite", protect, unfavoriteStore);
@@ -58,6 +60,29 @@ module.exports = router;
 /**
  * @swagger
  * /store/{storeId}:
+ *   delete:
+ *     tags: [Store]
+ *     summary: 가게 정보 삭제
+ *     description: "body"
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
+ *         required: true
+ *         type: "string"
+ *     consumes: "multipart/form-data"
+ *     produces: "multipart/form-data"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}:
  *   get:
  *     tags: [Store]
  *     summary: 가게 정보 조회
@@ -68,7 +93,7 @@ module.exports = router;
  *         description: "Bearer {token}"
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -94,7 +119,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -118,7 +143,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -142,7 +167,7 @@ module.exports = router;
  *         required: true
  *       - name: "storeId"
  *         in: "path"
- *         description: "example: YxRlt4Nm5d7I4VpoT6gl"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
  *         required: true
  *         type: "string"
  *       - name: "body"
@@ -171,6 +196,11 @@ module.exports = router;
  *     summary: 댓글 리스트 조회
  *     description: ""
  *     parameters:
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
+ *         required: true
+ *         type: "string"
  *       - name: "reviewId"
  *         in: "path"
  *         description: "example: 7UtpenJNg997WQM2x3Vx"
@@ -199,6 +229,11 @@ module.exports = router;
  *         in: "header"
  *         description: "Bearer {token}"
  *         required: true
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
+ *         required: true
+ *         type: "string"
  *       - name: "reviewId"
  *         in: "path"
  *         description: "example: 7UtpenJNg997WQM2x3Vx"
@@ -231,6 +266,11 @@ module.exports = router;
  *         in: "header"
  *         description: "Bearer {token}"
  *         required: true
+ *       - name: "storeId"
+ *         in: "path"
+ *         description: "example: nszavgGiwL3M0qk2ixVP"
+ *         required: true
+ *         type: "string"
  *       - name: "reviewId"
  *         in: "path"
  *         description: "example: 7UtpenJNg997WQM2x3Vx"

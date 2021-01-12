@@ -2,7 +2,7 @@
     "type": "object",
     "properties": {
         "id": {
-            "example": "YxRlt4Nm5d7I4VpoT6gl",
+            "example": "nszavgGiwL3M0qk2ixVP",
             "type": "string"
           },
         "createdAt": {

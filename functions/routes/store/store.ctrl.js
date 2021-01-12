@@ -27,6 +27,29 @@ exports.createStore = async (req, res) => {
     }
 };
 
+exports.deleteStore = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const storeId = req.params.storeId;
+        const storeDoc = await db.doc(`/store/${storeId}`).get();
+
+        if (!storeDoc.exists) {
+            return res.status(404).json({ error: "store not found" });
+        }
+
+        if (storeDoc.data().writer.userId !== userId) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        await db.doc(`/store/${storeId}`).delete();
+
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
+
 exports.getStoreDetail = async (req, res) => {
     try {
         const storeId = req.params.storeId;
@@ -156,7 +179,7 @@ exports.getComment = async (req, res) => {
             .get();
 
         const comments = await docComment.docs.map((doc) => {
-            let { reviewId, ...comment } = doc.data();
+            let { storeId, reviewId, ...comment } = doc.data();
             return {
                 id: doc.id,
                 ...comment,
@@ -185,6 +208,7 @@ exports.createComment = async (req, res) => {
 
         const { createdAt, email, ...user } = req.user;
         newComment.writer = user;
+        newComment.storeId = req.params.storeId;
         newComment.reviewId = req.params.reviewId;
         newComment.createdAt = new Date().toISOString();
 
@@ -200,6 +224,7 @@ exports.createComment = async (req, res) => {
 
 exports.likeReview = async (req, res) => {
     try {
+        const storeId = req.params.storeId;
         const reviewId = req.params.reviewId;
         const userId = req.user.userId;
 
@@ -221,7 +246,7 @@ exports.likeReview = async (req, res) => {
             return res.status(400).json({ error: "Review already liked" });
         }
 
-        await db.collection("like").add({ reviewId, userId });
+        await db.collection("like").add({ storeId, reviewId, userId });
 
         return res.status(200).json({});
     } catch (err) {
