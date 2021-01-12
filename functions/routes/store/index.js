@@ -10,6 +10,7 @@ const {
     deleteReview,
     getComment,
     createComment,
+    deleteComment,
     likeReview,
     unlikeReview,
 } = require("./store.ctrl");
@@ -24,6 +25,11 @@ router.post("/:storeId/review", protect, filesUpload, createReview);
 router.delete("/:storeId/review/:reviewId", protect, deleteReview);
 router.get("/:storeId/review/:reviewId/comment", getComment);
 router.post("/:storeId/review/:reviewId/comment", protect, createComment);
+router.delete(
+    "/:storeId/review/:reviewId/comment/:commentId",
+    protect,
+    deleteComment
+);
 router.post("/:storeId/review/:reviewId/like", protect, likeReview);
 router.delete("/:storeId/review/:reviewId/unlike", protect, unlikeReview);
 
@@ -247,7 +253,7 @@ module.exports = router;
  * /store/{storeId}/review/{reviewId}/comment:
  *   post:
  *     tags: [Store]
- *     summary: 댓글 등록
+ *     summary: 리뷰 댓글 등록
  *     description: ""
  *     parameters:
  *       - name: "Authorization"
@@ -277,6 +283,29 @@ module.exports = router;
  *         description: Success(성공)
  *         schema:
  *           $ref: "#/definitions/success_comment_post"
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}/review/{reviewId}/comment/{commentId}:
+ *   delete:
+ *     tags: [Store]
+ *     summary: 리뷰 댓글 삭제
+ *     description: "body"
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *       - name: "commentId"
+ *         in: "path"
+ *         description: "example: ejE9Q09Kuchd00lRJNFn"
+ *         required: true
+ *         type: "string"
+ *     consumes: "multipart/form-data"
+ *     produces: "multipart/form-data"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
  */
 
 /**

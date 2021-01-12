@@ -241,6 +241,28 @@ exports.createComment = async (req, res) => {
     }
 };
 
+exports.deleteComment = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const commentId = req.params.commentId;
+        const commentDoc = await db.doc(`/comment/${commentId}`).get();
+
+        if (!commentDoc.exists) {
+            return res.status(404).json({ error: "review not found" });
+        }
+
+        if (commentDoc.data().writer.userId !== userId) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        await db.doc(`/comment/${commentId}`).delete();
+
+        return res.status(200).json({});
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+};
+
 exports.likeReview = async (req, res) => {
     try {
         const storeId = req.params.storeId;
