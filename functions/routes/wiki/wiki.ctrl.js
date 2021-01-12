@@ -52,6 +52,8 @@ exports.getWiki = async (req, res) => {
 exports.createWiki = async (req, res) => {
     try {
         const wiki = req.body;
+        const { createdAt, email, ...user } = req.user;
+        wiki.writer = user;
         wiki.comments = 0;
         wiki.commentList = [];
         wiki.createdAt = new Date().toISOString();
@@ -65,6 +67,28 @@ exports.createWiki = async (req, res) => {
     }
 };
 
+exports.deleteWiki = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const wikiId = req.params.wikiId;
+        const wikiDoc = await db.doc(`/wiki/${wikiId}`).get();
+
+        if (!wikiDoc.exists) {
+            return res.status(404).json({ error: "store not found" });
+        }
+
+        if (wikiDoc.data().writer.userId !== userId) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        await db.doc(`/wiki/${wikiId}`).delete();
+
+        return res.status(200).json({});
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
 exports.getWikiDetail = async (req, res) => {
     const wikiId = req.params.wikiId;
 
@@ -82,6 +106,7 @@ exports.getWikiDetail = async (req, res) => {
 
         const wiki = docWiki.data();
         wiki.id = docWiki.id;
+        wiki.favorite = await checkFavorite(req, "wikiId", docWiki.id);
         wiki.commentList = await docCommentList.docs.map((doc) => {
             const { wikiId, ...comment } = doc.data();
             return {
@@ -166,6 +191,29 @@ exports.createWikiComment = async (req, res) => {
         await db.collection("comment").add(newComment);
 
         return res.status(200).json(newComment);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
+
+exports.deleteWikiComment = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const commentId = req.params.commentId;
+        const commentDoc = await db.doc(`/comment/${commentId}`).get();
+
+        if (!commentDoc.exists) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+
+        if (commentDoc.data().writer.userId !== userId) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        await db.doc(`/comment/${commentId}`).delete();
+
+        return res.status(200).json({});
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: err });

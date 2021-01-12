@@ -3,19 +3,23 @@ const router = express.Router();
 const { protect, filesUpload } = require("../../middleware");
 const {
     createWiki,
+    deleteWiki,
     getWiki,
     getWikiDetail,
     favoriteWiki,
     unfavoriteWiki,
     createWikiComment,
+    deleteWikiComment,
 } = require("./wiki.ctrl");
 
 router.get("/", getWiki);
 router.post("/", protect, filesUpload, createWiki);
+router.delete("/:wikiId", protect, deleteWiki);
 router.get("/:wikiId", getWikiDetail);
 router.post("/:wikiId/favorite", protect, favoriteWiki);
 router.delete("/:wikiId/unfavorite", protect, unfavoriteWiki);
 router.post("/:wikiId/comment", protect, createWikiComment);
+router.delete("/:wikiId/comment/:commentId", protect, deleteWikiComment);
 
 module.exports = router;
 
@@ -88,14 +92,41 @@ module.exports = router;
 /**
  * @swagger
  * /wiki/{wikiId}:
+ *   delete:
+ *     tags: [Wiki]
+ *     summary: wiki 삭제
+ *     description: "body"
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *       - name: "wikiId"
+ *         in: "path"
+ *         description: "example: IJeg3STL5Up1IRM7iDd0"
+ *         required: true
+ *         type: "string"
+ *     consumes: "multipart/form-data"
+ *     produces: "multipart/form-data"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */
+
+/**
+ * @swagger
+ * /wiki/{wikiId}:
  *   get:
  *     tags: [Wiki]
  *     summary: 비건 편의점 상세정보 조회
  *     description: ""
  *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
  *       - name: "wikiId"
  *         in: "path"
- *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         description: "example: IJeg3STL5Up1IRM7iDd0"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -121,7 +152,7 @@ module.exports = router;
  *         required: true
  *       - name: "wikiId"
  *         in: "path"
- *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         description: "example: IJeg3STL5Up1IRM7iDd0"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -145,7 +176,7 @@ module.exports = router;
  *         required: true
  *       - name: "wikiId"
  *         in: "path"
- *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         description: "example: IJeg3STL5Up1IRM7iDd0"
  *         required: true
  *         type: "string"
  *     consumes: "application/json"
@@ -169,7 +200,7 @@ module.exports = router;
  *         required: true
  *       - name: "wikiId"
  *         in: "path"
- *         description: "example: UqHcUaYWye5D1wb2WIY9"
+ *         description: "example: IJeg3STL5Up1IRM7iDd0"
  *         required: true
  *         type: "string"
  *       - name: "request"
@@ -185,4 +216,27 @@ module.exports = router;
  *         description: Success(성공)
  *         schema:
  *           $ref: "#/definitions/success_wikiComment_post"
+ */
+
+/**
+ * @swagger
+ * /wiki/{wikiId}/comment/{commentId}:
+ *   delete:
+ *     tags: [Wiki]
+ *     summary: 댓글 정보 삭제
+ *     description: "body"
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *       - name: "commentId"
+ *         in: "path"
+ *         description: "example: 0L7QxQtgKic9vFwWHz6U"
+ *         required: true
+ *         type: "string"
+ *     consumes: "multipart/form-data"
+ *     produces: "multipart/form-data"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
  */

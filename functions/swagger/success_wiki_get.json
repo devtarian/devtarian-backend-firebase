@@ -2,7 +2,7 @@
     "type":"object",
     "properties": {
         "id": {
-            "example": "UqHcUaYWye5D1wb2WIY9",
+            "example": "IJeg3STL5Up1IRM7iDd0",
             "type": "string"
           },
           "favorite": {
@@ -28,6 +28,24 @@
           ,"imgUrl": {
             "example": "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/105488.jpeg?alt=media",
             "type": "string"
+          },
+          "writer": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "example": "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                    "type": "string"
+                },
+                "username": {
+                    "example": "bbbbb",
+                    "type": "string"
+                },
+                "thumbNail": {
+                    "example":
+                        "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                    "type": "string"
+                }
+            }
           }
         }
         

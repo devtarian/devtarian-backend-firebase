@@ -67,3 +67,35 @@ exports.onStoreDelete = functions
             console.log(err);
         }
     });
+
+exports.onWikiDelete = functions
+    .region("asia-northeast3")
+    .firestore.document("/wiki/{wikiId}")
+    .onDelete(async (snapshot, context) => {
+        try {
+            const wikiId = context.params.wikiId;
+            const batch = db.batch();
+
+            const favoriteDoc = await db
+                .collection("favorite")
+                .where("wikiId", "==", wikiId)
+                .get();
+
+            favoriteDoc.docs.forEach((doc) => {
+                batch.delete(db.doc(`/favorite/${doc.id}`));
+            });
+
+            const commentDoc = await db
+                .collection("comment")
+                .where("wikiId", "==", wikiId)
+                .get();
+
+            commentDoc.docs.forEach((doc) => {
+                batch.delete(db.doc(`/comment/${doc.id}`));
+            });
+
+            batch.commit();
+        } catch (err) {
+            console.log(err);
+        }
+    });

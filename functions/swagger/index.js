@@ -61,10 +61,12 @@ module.exports = {
                 type: "object",
                 properties: {
                     email: {
+                        example: "bbbbb@naver.com",
                         type: "string",
                         format: "string",
                     },
                     pw: {
+                        example: "bbbbbbb1",
                         type: "string",
                         format: "string",
                     },
