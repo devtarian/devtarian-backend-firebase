@@ -7,6 +7,7 @@ const {
     favoriteStore,
     unfavoriteStore,
     createReview,
+    deleteReview,
     getComment,
     createComment,
     likeReview,
@@ -20,6 +21,7 @@ router.get("/:storeId", getStoreDetail);
 router.post("/:storeId/favorite", protect, favoriteStore);
 router.delete("/:storeId/unfavorite", protect, unfavoriteStore);
 router.post("/:storeId/review", protect, filesUpload, createReview);
+router.delete("/:storeId/review/:reviewId", protect, deleteReview);
 router.get("/:storeId/review/:reviewId/comment", getComment);
 router.post("/:storeId/review/:reviewId/comment", protect, createComment);
 router.post("/:storeId/review/:reviewId/like", protect, likeReview);
@@ -181,6 +183,29 @@ module.exports = router;
  *         description: "이미지 업로드"
  *         required: true
  *         type: "file"
+ *     consumes: "multipart/form-data"
+ *     produces: "multipart/form-data"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ */
+
+/**
+ * @swagger
+ * /store/{storeId}/review/{reviewId}:
+ *   delete:
+ *     tags: [Store]
+ *     summary: 리뷰 정보 삭제
+ *     description: "body"
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *       - name: "reviewId"
+ *         in: "path"
+ *         description: "example: 7UtpenJNg997WQM2x3Vx"
+ *         required: true
+ *         type: "string"
  *     consumes: "multipart/form-data"
  *     produces: "multipart/form-data"
  *     responses:

@@ -166,9 +166,28 @@ exports.createReview = async (req, res) => {
     }
 };
 
-// [TODO]
-// delete Review
-// reviews -1
+exports.deleteReview = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const reviewId = req.params.reviewId;
+        const reviewDoc = await db.doc(`/review/${reviewId}`).get();
+
+        if (!reviewDoc.exists) {
+            return res.status(404).json({ error: "review not found" });
+        }
+
+        if (reviewDoc.data().writer.userId !== userId) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        await db.doc(`/review/${reviewId}`).delete();
+
+        return res.status(200).json({});
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+};
+
 exports.getComment = async (req, res) => {
     try {
         const reviewId = req.params.reviewId;
