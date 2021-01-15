@@ -9,9 +9,9 @@ exports.getWiki = async (req, res) => {
     };
     try {
         const category = req.query.category || "all";
-        const page = req.query.category || 1;
-        const limit = req.query.category || 20;
-        const order = req.query.category || "createdAt";
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 20;
+        const order = req.query.order || "createdAt";
         let wikiDoc;
         if (category === "all") {
             wikiDoc = await db

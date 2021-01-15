@@ -2,31 +2,38 @@ const { firebase, db } = require("../../fbAdmin");
 const { GeoFirestore } = require("geofirestore");
 const checkFavorite = require("../../utils/checkFavorite");
 const checkLikesOfMe = require("../../utils/checkLikesOfMe");
+const computeDistance = require("../../utils/computeDistance");
 
 exports.getMain = async (req, res) => {
     try {
-        const lat = Number(req.query.lat || 37.573);
-        const lng = Number(req.query.lng || 126.9794);
+        const latitude = Number(req.query.lat || 37.573);
+        const longitude = Number(req.query.lng || 126.9794);
         const geocollection = new GeoFirestore(db).collection("store");
         const storeSnap = await geocollection
             .near({
-                radius: 5, // km
-                center: new firebase.firestore.GeoPoint(lat, lng),
+                radius: 1000, // km
+                center: new firebase.firestore.GeoPoint(latitude, longitude),
             })
             .limit(4)
             .get();
 
-        const store = await Promise.all(
+        let store = await Promise.all(
             storeSnap.docs.map(async (doc) => {
                 let { g, ...rest } = doc.data();
                 return {
                     ...rest,
                     id: doc.id,
+                    distance: computeDistance(
+                        { latitude, longitude },
+                        g.geopoint
+                    ),
                     favorite: await checkFavorite(req, "storeId", doc.id),
                     imgUrl: rest.info.imgUrls[0] ? rest.info.imgUrls[0] : "",
                 };
             })
         );
+
+        store.sort((a, b) => Number(a.distance) - Number(b.distance));
 
         const ratedDoc = await db
             .collection("store")

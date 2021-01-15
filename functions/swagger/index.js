@@ -129,6 +129,7 @@ module.exports = {
     apis: [
         "./routes/main/index.js",
         "./routes/auth/index.js",
+        "./routes/search/index.js",
         "./routes/store/index.js",
         "./models/User/index.js",
         "./routes/wiki/index.js",
