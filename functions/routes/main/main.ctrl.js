@@ -23,6 +23,7 @@ exports.getMain = async (req, res) => {
                     ...rest,
                     id: doc.id,
                     favorite: await checkFavorite(req, "storeId", doc.id),
+                    imgUrl: rest.info.imgUrls[0] ? rest.info.imgUrls[0] : "",
                 };
             })
         );
@@ -40,6 +41,7 @@ exports.getMain = async (req, res) => {
                     ...rest,
                     id: doc.id,
                     favorite: await checkFavorite(req, "storeId", doc.id),
+                    imgUrl: rest.info.imgUrls[0] ? rest.info.imgUrls[0] : "",
                 };
             })
         );
@@ -70,12 +72,17 @@ exports.getMain = async (req, res) => {
 
         const review = await Promise.all(
             reviewDoc.docs.map(async (doc) => {
-                const { imgUrls, ...rest } = doc.data();
+                const { imgUrls, storeId, ...rest } = doc.data();
+
+                const storeDoc = await db.doc(`/store/${storeId}`).get();
+
                 return {
                     ...rest,
                     id: doc.id,
                     imgUrl: imgUrls[0] ? imgUrls[0] : "",
                     likesOfMe: await checkLikesOfMe(req, "reviewId", doc.id),
+                    storeId,
+                    info: storeDoc.data().info,
                 };
             })
         );

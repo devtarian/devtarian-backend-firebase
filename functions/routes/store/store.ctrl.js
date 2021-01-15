@@ -70,6 +70,7 @@ exports.getStoreDetail = async (req, res) => {
             .orderBy("createdAt", "desc")
             .get();
 
+        store.reviews = docReviews.docs.length;
         store.reviewList = await Promise.all(
             docReviews.docs.map(async (doc) => {
                 let { storeId, imgUrls, ...review } = doc.data();

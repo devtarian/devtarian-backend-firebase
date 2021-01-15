@@ -99,3 +99,4 @@ exports.onWikiDelete = functions
             console.log(err);
         }
     });
+

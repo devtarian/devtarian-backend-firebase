@@ -36,7 +36,7 @@ module.exports = router;
  *         description: "Bearer {token} / 토큰이 유효한경우 favorite 여부 나옴"
  *       - name: "category"
  *         in: "query"
- *         description: "all / processed / snack / bread / drink / etc "
+ *         description: "all / processed / snack / bakery / drink / etc "
  *       - name: "page"
  *         in: "query"
  *         description: "1 (시작 페이지)"
