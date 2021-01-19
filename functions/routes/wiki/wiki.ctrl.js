@@ -183,12 +183,14 @@ exports.createWikiComment = async (req, res) => {
 
         const comments = wiki.data().comments + 1;
         await wiki.ref.update({ comments });
+
         const { createdAt, email, ...user } = req.user;
         newComment.writer = user;
         newComment.wikiId = wikiId;
         newComment.createdAt = new Date().toISOString();
 
-        await db.collection("comment").add(newComment);
+        const commentDoc = await db.collection("comment").add(newComment);
+        newComment.id = commentDoc.id;
 
         return res.status(200).json(newComment);
     } catch (err) {
@@ -200,6 +202,7 @@ exports.createWikiComment = async (req, res) => {
 exports.deleteWikiComment = async (req, res) => {
     try {
         const userId = req.user.userId;
+        const wikiId = req.params.wikiId;
         const commentId = req.params.commentId;
         const commentDoc = await db.doc(`/comment/${commentId}`).get();
 
@@ -211,7 +214,15 @@ exports.deleteWikiComment = async (req, res) => {
             return res.status(403).json({ error: "Unauthorized" });
         }
 
+        const wiki = await db.doc(`wiki/${wikiId}`).get();
+        if (!wiki.exists) {
+            return res.status(404).json({ error: "wiki not found" });
+        }
+
         await db.doc(`/comment/${commentId}`).delete();
+
+        const comments = wiki.data().comments - 1;
+        await wiki.ref.update({ comments });
 
         return res.status(200).json({});
     } catch (err) {

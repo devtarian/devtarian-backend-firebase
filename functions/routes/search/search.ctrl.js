@@ -7,10 +7,12 @@ exports.getSearch = async (req, res) => {
         const q = req.query.q;
         const lat = req.query.lat;
         const lng = req.query.lng;
-        const category = req.query.category || "restaurant";
+        const category = req.query.category || "all";
+        const vegType = req.query.vegType || "vegan";
         const page = req.query.page || 1;
-        const limit = req.query.limit || 10;
+        const limit = req.query.limit || 5;
         const order = req.query.order || "distance";
+        const range = req.query.range ? Number(req.query.range) : 6;
 
         if (!q) {
             return res.status(400).json({ error: "위치를 검색해주세요." });
@@ -20,7 +22,7 @@ exports.getSearch = async (req, res) => {
         const geocollection = new GeoFirestore(db).collection("store");
         const storeSnap = await geocollection
             .near({
-                radius: 1000,
+                radius: range,
                 center: new firebase.firestore.GeoPoint(latitude, longitude),
             })
             .get();
@@ -41,8 +43,10 @@ exports.getSearch = async (req, res) => {
             })
         );
         if (category !== "all") {
-            store.filter((item) => item.category === category);
+            store = store.filter((item) => item.info.category === category);
         }
+
+        store = store.filter((item) => item.info.vegType === vegType);
 
         order === "rated"
             ? store.sort(
@@ -53,7 +57,7 @@ exports.getSearch = async (req, res) => {
 
         store = store.splice((page - 1) * limit, limit);
         //store.forEach((item) => console.log(item.distance));
-        return res.status(200).json({ total: store.length, store });
+        return res.status(200).json(store);
     } catch (err) {
         console.log(err);
         return res.status(500).json({

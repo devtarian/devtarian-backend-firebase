@@ -229,6 +229,11 @@ module.exports = router;
  *       - name: "Authorization"
  *         in: "header"
  *         description: "Bearer {token}"
+ *       - name: "wikiId"
+ *         in: "path"
+ *         description: "example: IJeg3STL5Up1IRM7iDd0"
+ *         required: true
+ *         type: "string"
  *       - name: "commentId"
  *         in: "path"
  *         description: "example: 0L7QxQtgKic9vFwWHz6U"

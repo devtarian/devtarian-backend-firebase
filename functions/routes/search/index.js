@@ -24,10 +24,10 @@ module.exports = router;
  *       - name: "lat"
  *         in: "query"
  *         required: true
- *         description: "[Example] 33.450701"
+ *         description: "[Example] 37.573"
  *       - name: "lng"
  *         in: "query"
- *         description: "[Example] 126.570667"
+ *         description: "[Example] 126.9794"
  *         required: true
  *       - name: "category"
  *         in: "query"
@@ -41,6 +41,9 @@ module.exports = router;
  *       - name: "order"
  *         in: "query"
  *         description: "distance / rated"
+ *       - name: "range"
+ *         in: "query"
+ *         description: "6"
  *     consumes: "application/json"
  *     produces: "application/json"
  *     responses:

@@ -77,7 +77,7 @@ exports.getStoreDetail = async (req, res) => {
                 return {
                     ...review,
                     id: doc.id,
-                    imgUrl: imgUrls[0] ? imgUrls[0] : "",
+                    imgUrls,
                     likesOfMe: await checkLikesOfMe(req, "reviewId", doc.id),
                 };
             })
