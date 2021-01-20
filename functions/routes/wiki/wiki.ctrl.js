@@ -64,6 +64,30 @@ exports.createWiki = async (req, res) => {
     }
 };
 
+exports.editWiki = async (req, res) => {
+    try {
+        const wikiId = req.params.wikiId;
+        const body = req.body;
+
+        const wiki = await db.doc(`/wiki/${wikiId}`).get();
+        if (!wiki.exists) {
+            return res.status(404).json({ error: "wiki not found" });
+        }
+        if (wiki.data().writer !== req.user.userId) {
+            return res
+                .status(400)
+                .json({ error: "글 작성자만 수정가능합니다." });
+        }
+        await wiki.ref.update({ ...body });
+
+        const newWiki = { ...wiki.data(), ...body };
+        return res.status(200).json(newWiki);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
+
 exports.deleteWiki = async (req, res) => {
     try {
         const userId = req.user.userId;

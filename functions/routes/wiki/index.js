@@ -4,6 +4,7 @@ const { protect, filesUpload } = require("../../middleware");
 const {
     createWiki,
     deleteWiki,
+    editWiki,
     getWiki,
     getWikiDetail,
     favoriteWiki,
@@ -15,6 +16,7 @@ const {
 router.get("/", getWiki);
 router.post("/", protect, filesUpload, createWiki);
 router.delete("/:wikiId", protect, deleteWiki);
+router.patch("/:wikiId", protect, filesUpload, editWiki);
 router.get("/:wikiId", getWikiDetail);
 router.post("/:wikiId/favorite", protect, favoriteWiki);
 router.delete("/:wikiId/unfavorite", protect, unfavoriteWiki);
@@ -113,6 +115,38 @@ module.exports = router;
 /**
  * @swagger
  * /wiki/{wikiId}:
+ *   patch:
+ *     tags: [Wiki]
+ *     summary: wiki 정보 변경
+ *     description: ""
+ *     parameters:
+ *       - name: "Authorization"
+ *         in: "header"
+ *         description: "Bearer {token}"
+ *         required: true
+ *       - name: "body"
+ *         in: "formData"
+ *         description: "Models -> request_wiki_post 참고"
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/request_wiki_post"
+ *       - name: "file"
+ *         in: "formData"
+ *         description: "이미지 업로드"
+ *         required: true
+ *         type: "file"
+ *     consumes: "multipart/form-data"
+ *     produces: "multipart/form-data"
+ *     responses:
+ *       200:
+ *         description: Success(성공)
+ *         schema:
+ *           $ref: "#/definitions/success_wiki_post"
+ */
+
+/**
+ * @swagger
+ * /wiki/{wikiId}:
  *   get:
  *     tags: [Wiki]
  *     summary: 비건 편의점 상세정보 조회
@@ -121,7 +155,6 @@ module.exports = router;
  *       - name: "Authorization"
  *         in: "header"
  *         description: "Bearer {token}"
- *         required: true
  *       - name: "wikiId"
  *         in: "path"
  *         description: "example: IJeg3STL5Up1IRM7iDd0"
