@@ -4,31 +4,25 @@ const checkFavorite = require("../../utils/checkFavorite");
 exports.getWiki = async (req, res) => {
     const orderMap = {
         createdAt: { key: "createdAt", order: "desc" },
-        productDesc: { key: "product", order: "desc" },
-        productAsc: { key: "product", order: "asc" },
+        desc: { key: "product", order: "desc" },
+        asc: { key: "product", order: "asc" },
     };
     try {
         const category = req.query.category || "all";
         const page = req.query.page || 1;
-        const limit = req.query.limit || 20;
+        const limit = req.query.limit || 6;
         const order = req.query.order || "createdAt";
-        let wikiDoc;
-        if (category === "all") {
-            wikiDoc = await db
-                .collection("wiki")
-                .orderBy(orderMap[order].key, orderMap[order].order)
-                .offset((page - 1) * limit)
-                .limit(limit)
-                .get();
-        } else {
-            wikiDoc = await db
-                .collection("wiki")
-                .where("category", "==", category)
-                .orderBy(orderMap[order].key, orderMap[order].order)
-                .offset((page - 1) * limit)
-                .limit(limit)
-                .get();
-        }
+        let wikiDocument =
+            category === "all"
+                ? await db.collection("wiki")
+                : await db.collection("wiki").where("category", "==", category);
+
+        let wikiDocTotal = await wikiDocument.get();
+        let wikiDoc = await wikiDocument
+            .orderBy(orderMap[order].key, orderMap[order].order)
+            .offset((page - 1) * limit)
+            .limit(limit)
+            .get();
 
         const wiki = await Promise.all(
             wikiDoc.docs.map(async (doc) => {
@@ -42,7 +36,10 @@ exports.getWiki = async (req, res) => {
                 };
             })
         );
-        return res.status(200).json(wiki);
+        return res.status(200).json({
+            totalCount: wikiDocTotal.docs.length,
+            data: wiki,
+        });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: err });

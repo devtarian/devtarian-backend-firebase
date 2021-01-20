@@ -52,9 +52,7 @@ module.exports = router;
  *       200:
  *         description: Success(성공)
  *         schema:
- *           type: "array"
- *           items:
- *             $ref: "#/definitions/success_wiki_get"
+ *           $ref: "#/definitions/success_wiki_get"
  */
 
 /**

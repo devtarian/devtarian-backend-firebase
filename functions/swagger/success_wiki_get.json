@@ -1,52 +1,65 @@
 {
-    "type":"object",
-    "properties": {
-        "id": {
-            "example": "IJeg3STL5Up1IRM7iDd0",
-            "type": "string"
-          },
-          "favorite": {
-            "example": "false",
-            "type": "string"
-          },
-          "category": {
-            "example": "과자/간식",
-            "type": "string"
-          },
-          "createdAt": {
-            "example": "2021-01-06T08:19:09.380Z",
-            "type": "string"
-          },
-          "product": {
-            "example": "상품명",
-            "type": "string"
-          },
-          "ingredient": {
-            "example": "성분",
-            "type": "string"
-          }
-          ,"imgUrl": {
-            "example": "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/105488.jpeg?alt=media",
-            "type": "string"
-          },
-          "writer": {
-            "type": "object",
-            "properties": {
-                "userId": {
-                    "example": "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
-                    "type": "string"
-                },
-                "username": {
-                    "example": "bbbbb",
-                    "type": "string"
-                },
-                "thumbNail": {
-                    "example":
-                        "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
-                    "type": "string"
+  "type": "object",
+  "properties": {
+    "totalCount":{
+      "example": 4,
+      "type": "integer",
+      "format": "int32"
+    },
+    "data": {
+      "type":"array",
+      "items": {
+        "type":"object",
+        "properties": {
+            "id": {
+                "example": "IJeg3STL5Up1IRM7iDd0",
+                "type": "string"
+              },
+              "favorite": {
+                "example": "false",
+                "type": "string"
+              },
+              "category": {
+                "example": "과자/간식",
+                "type": "string"
+              },
+              "createdAt": {
+                "example": "2021-01-06T08:19:09.380Z",
+                "type": "string"
+              },
+              "product": {
+                "example": "상품명",
+                "type": "string"
+              },
+              "ingredient": {
+                "example": "성분",
+                "type": "string"
+              }
+              ,"imgUrl": {
+                "example": "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/105488.jpeg?alt=media",
+                "type": "string"
+              },
+              "writer": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "example": "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                        "type": "string"
+                    },
+                    "username": {
+                        "example": "bbbbb",
+                        "type": "string"
+                    },
+                    "thumbNail": {
+                        "example":
+                            "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                        "type": "string"
+                    }
                 }
+              }
             }
-          }
-        }
-        
+            
+    }
+    }
+  }
 }
