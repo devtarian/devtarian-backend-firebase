@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { filesUpload, protect } = require("../../middleware");
-const { signIn, signUp, getUser } = require("./auth.ctrl");
+const { signIn, signUp, getUser, refreshToken } = require("./auth.ctrl");
 
 router.post("/signin", signIn);
 router.post("/signup", filesUpload, signUp);
 router.get("/me", protect, getUser);
+router.post("/gettoken", refreshToken);
 
 module.exports = router;
 

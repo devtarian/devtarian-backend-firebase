@@ -73,11 +73,11 @@ exports.editWiki = async (req, res) => {
         if (!wiki.exists) {
             return res.status(404).json({ error: "wiki not found" });
         }
-        if (wiki.data().writer !== req.user.userId) {
-            return res
-                .status(400)
-                .json({ error: "글 작성자만 수정가능합니다." });
-        }
+        // if (wiki.data().writer !== req.user.userId) {
+        //     return res
+        //         .status(400)
+        //         .json({ error: "글 작성자만 수정가능합니다." });
+        // }
         await wiki.ref.update({ ...body });
 
         const newWiki = { ...wiki.data(), ...body };

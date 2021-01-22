@@ -1,4 +1,4 @@
-const { firebase, db } = require("../../fbAdmin");
+const { firebase, db, admin } = require("../../fbAdmin");
 const config = require("../../config");
 
 const { validateData } = require("../../utils/validate");
@@ -17,6 +17,7 @@ exports.signIn = async (req, res) => {
             .auth()
             .signInWithEmailAndPassword(user.email, user.pw);
         const token = await resUser.user.getIdToken();
+        console.log(firebase.auth().currentUser.refreshToken);
 
         return res.status(200).json({ token });
     } catch (err) {
@@ -84,6 +85,23 @@ exports.getUser = async (req, res) => {
     try {
         return res.status(200).json({ ...req.user });
     } catch (err) {
+        return res.status(500).json({
+            error: err,
+        });
+    }
+};
+
+exports.refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.body.refreshToken;
+        console.log(refreshToken);
+        await admin.auth().verifyIdToken(refreshToken);
+        // await admin.auth().refresh
+        const newToken = await admin.auth().currentUser.getIdToken(true);
+        return res.status(200).json({ token: newToken });
+        //console.log(firebase.auth().currentUser.getIdToken());
+    } catch (err) {
+        console.log(err);
         return res.status(500).json({
             error: err,
         });
