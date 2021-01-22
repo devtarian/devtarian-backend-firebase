@@ -23,7 +23,6 @@ module.exports = checkFavorite = async (req, key, value) => {
 
         return favoriteDoc.docs.length === 0 ? false : true;
     } catch (err) {
-        console.error(err);
-        return res.status(403).json(err);
+        return false;
     }
 };

@@ -22,7 +22,6 @@ module.exports = checkLikesOfMe = async (req, key, value) => {
             .get();
         return likeDoc.docs.length === 0 ? false : true;
     } catch (err) {
-        console.error(err);
-        return res.status(403).json(err);
+        return false;
     }
 };

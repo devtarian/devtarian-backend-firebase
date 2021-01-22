@@ -97,6 +97,7 @@ exports.getMain = async (req, res) => {
         return res.status(200).json({ store, rated, wiki, review });
     } catch (err) {
         console.log(err);
+        console.log("==============");
         return res.status(500).json({
             error: err,
         });
