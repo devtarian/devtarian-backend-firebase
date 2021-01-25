@@ -56,7 +56,10 @@ exports.createWiki = async (req, res) => {
         wiki.createdAt = new Date().toISOString();
 
         const docWiki = await db.collection("wiki").add(wiki);
+
         wiki.id = docWiki.id;
+        wiki.favorite = false;
+        wiki.imgUrl = wiki.imgUrls[0] ? wiki.imgUrls[0] : "";
         return res.status(200).json(wiki);
     } catch (err) {
         console.log(err);
@@ -67,8 +70,10 @@ exports.createWiki = async (req, res) => {
 exports.editWiki = async (req, res) => {
     try {
         const wikiId = req.params.wikiId;
-        const body = req.body;
-
+        const { imgUrls, ...body } = req.body;
+        if (imgUrls[0]) {
+            body.imgUrls = imgUrls;
+        }
         const wiki = await db.doc(`/wiki/${wikiId}`).get();
         if (!wiki.exists) {
             return res.status(404).json({ error: "wiki not found" });
@@ -81,6 +86,8 @@ exports.editWiki = async (req, res) => {
         await wiki.ref.update({ ...body });
 
         const newWiki = { ...wiki.data(), ...body };
+        newWiki.id = wikiId;
+        newWiki.imgUrl = newWiki.imgUrls[0] ? newWiki.imgUrls[0] : "";
         return res.status(200).json(newWiki);
     } catch (err) {
         console.log(err);

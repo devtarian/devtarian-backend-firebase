@@ -112,6 +112,32 @@ module.exports = {
                         type: "string",
                         format: "string",
                     },
+                    user: {
+                        type: "object",
+                        properties: {
+                            createdAt: {
+                                example: "2020-12-25T02:59:14.106Z",
+                                type: "string",
+                            },
+                            userId: {
+                                example: "rWz8oRmR3fb1f5aYvgxfRWXQXA23",
+                                type: "string",
+                            },
+                            email: {
+                                example: "bbbbb@naver.com",
+                                type: "string",
+                            },
+                            thumbNail: {
+                                example:
+                                    "https://firebasestorage.googleapis.com/v0/b/project-devtarian.appspot.com/o/795716.jpg?alt=media",
+                                type: "string",
+                            },
+                            username: {
+                                example: "username",
+                                type: "string",
+                            },
+                        },
+                    },
                 },
             },
             success_auth_me_get,

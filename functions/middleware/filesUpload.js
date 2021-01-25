@@ -15,11 +15,9 @@ const filesUpload = function (req, res, next) {
             fileSize: 10 * 1024 * 1024,
         },
     });
-
     busboy.on("field", (key, value) => {
         fields[key] = JSON.parse(value);
     });
-
     busboy.on("file", async (fieldname, file, filename, encoding, mimetype) => {
         if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
             return res.status(400).json({ error: "Wrong file type submit" });
@@ -56,15 +54,15 @@ const filesUpload = function (req, res, next) {
             return res.status(500).json({ error: "Interval server Error" });
         }
     });
-
     busboy.on("finish", () => {
         req.body = fields.body;
         req.body["imgUrls"] = imgUrls;
 
         next();
     });
-
+    console.log(4);
     busboy.end(req.rawBody);
+    console.log(5);
 };
 
 module.exports = filesUpload;

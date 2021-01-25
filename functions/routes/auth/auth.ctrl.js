@@ -17,11 +17,17 @@ exports.signIn = async (req, res) => {
             .auth()
             .signInWithEmailAndPassword(user.email, user.pw);
         const token = await resUser.user.getIdToken();
-        console.log(firebase.auth().currentUser.refreshToken);
+        // console.log(firebase.auth().currentUser.refreshToken);
 
-        return res.status(200).json({ token });
+        const userInfo = await db
+            .collection("users")
+            .where("userId", "==", resUser.user.uid)
+            .limit(1)
+            .get();
+
+        return res.status(200).json({ token, user: userInfo.docs[0].data() });
     } catch (err) {
-        // console.error(err);
+        console.error(err);
         if (err.code === "auth/user-not-found") {
             return res
                 .status(400)
@@ -29,7 +35,7 @@ exports.signIn = async (req, res) => {
         } else if (err.code === "auth/wrong-password") {
             return res
                 .status(400)
-                .json({ email: "비밀번호가 일치하지 않습니다." });
+                .json({ pw: "비밀번호가 일치하지 않습니다." });
         } else {
             return res.status(500).json({
                 error: err,
@@ -43,7 +49,7 @@ exports.signUp = async (req, res) => {
         const thumbNail =
             imgUrls.length !== 0
                 ? imgUrls[0]
-                : `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/no-img.jpg?alt=media`;
+                : `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/no-img.png?alt=media`;
 
         newUser.thumbNail = thumbNail;
 

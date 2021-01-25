@@ -8,7 +8,7 @@ exports.getSearch = async (req, res) => {
         const lat = req.query.lat;
         const lng = req.query.lng;
         const category = req.query.category || "all";
-        const vegType = req.query.vegType || "vegan";
+        const vegType = req.query.vegType || "all";
         const page = req.query.page || 1;
         const limit = req.query.limit || 5;
         const order = req.query.order || "distance";
@@ -42,11 +42,13 @@ exports.getSearch = async (req, res) => {
                 };
             })
         );
+
         if (category !== "all") {
             store = store.filter((item) => item.info.category === category);
         }
-
-        store = store.filter((item) => item.info.vegType === vegType);
+        if (vegType !== "all") {
+            store = store.filter((item) => item.info.vegType === vegType);
+        }
 
         order === "rated"
             ? store.sort(
@@ -57,6 +59,7 @@ exports.getSearch = async (req, res) => {
 
         store = store.splice((page - 1) * limit, limit);
         //store.forEach((item) => console.log(item.distance));
+
         return res.status(200).json(store);
     } catch (err) {
         console.log(err);

@@ -9,10 +9,10 @@ exports.getMain = async (req, res) => {
         const lat = Number(req.query.lat || 37.573);
         const lng = Number(req.query.lng || 126.9794);
         const page = 1;
-        const size = 4;
+        const size = 5;
 
         const store = await queryStoreFunc(req, lat, lng, page, size);
-        const rated = await queryRatedFunc(req, page, size);
+        const rated = await queryRatedFunc(req, page, 10);
         const wiki = await queryWikiFunc(req, page, size);
         const review = await queryReviewFunc(req, page, size);
 
@@ -31,13 +31,13 @@ exports.getMainMore = async (req, res) => {
         const lat = req.query.lat || 37.573;
         const lng = req.query.lng || 126.9794;
         const page = req.query.page || 1;
-        const size = req.query.limit || 4;
+        const size = req.query.size || 1;
 
         let result = [];
         if (type === "store") {
             result = await queryStoreFunc(req, lat, lng, page, size);
-        } else if (type === "reated") {
-            result = await queryRatedFunc(req, page, size);
+            // } else if (type === "rated") {
+            //     result = await queryRatedFunc(req, page, size);
         } else if (type === "wiki") {
             result = await queryWikiFunc(req, page, size);
         } else if (type === "review") {
